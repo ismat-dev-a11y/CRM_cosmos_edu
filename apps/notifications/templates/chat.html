@@ -1,0 +1,177 @@
+<!DOCTYPE html>
+<html lang="uz">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Django WebSocket Chat - 100% bitta fayl</title>
+    <style>
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            background: #f0f2f5;
+            margin: 0;
+            padding: 20px;
+        }
+        .container {
+            max-width: 800px;
+            margin: 0 auto;
+            background: white;
+            border-radius: 15px;
+            box-shadow: 0 10px 30px rgba(0,0,0,0.1);
+            overflow: hidden;
+        }
+        header {
+            background: #00bfa5;
+            color: white;
+            padding: 20px;
+            text-align: center;
+            font-size: 24px;
+        }
+        #messages {
+            height: 70vh;
+            overflow-y: auto;
+            padding: 20px;
+            background: #f9f9f9;
+        }
+        .message {
+            margin: 10px 0;
+            padding: 12px 16px;
+            border-radius: 18px;
+            max-width: 70%;
+            word-wrap: break-word;
+        }
+        .my-message {
+            background: #00bfa5;
+            color: white;
+            margin-left: auto;
+            border-bottom-right-radius: 4px;
+        }
+        .other-message {
+            background: #e4e6eb;
+            color: black;
+            margin-right: auto;
+            border-bottom-left-radius: 4px;
+        }
+        .system {
+            text-align: center;
+            color: #65676b;
+            font-style: italic;
+            font-size: 14px;
+        }
+        .input-area {
+            padding: 20px;
+            background: white;
+            border-top: 1px solid #ddd;
+            display: flex;
+            gap: 10px;
+        }
+        input {
+            flex: 1;
+            padding: 15px;
+            border: 1px solid #ddd;
+            border-radius: 25px;
+            font-size: 16px;
+            outline: none;
+        }
+        button {
+            padding: 0 25px;
+            background: #00bfa5;
+            color: white;
+            border: none;
+            border-radius: 25px;
+            cursor: pointer;
+            font-size: 16px;
+        }
+        button:hover { background: #009688; }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <header>WebSocket Chat (Django Channels)</header>
+        
+        <div id="messages">
+            <div class="system">Siz ulandingiz! Xabar yozing...</div>
+        </div>
+
+        <div class="input-area">
+            <input type="text" id="msg" placeholder="Xabar yozing..." autocomplete="off">
+            <button onclick="sendMessage()">Yuborish</button>
+        </div>
+    </div>
+
+    <script>
+        const socket = new WebSocket('ws://' + window.location.host + '/ws/chat/');
+
+        const username = "Foydalanuvchi_" + Math.floor(Math.random() * 1000);
+
+        socket.onmessage = function(e) {
+            const data = JSON.parse(e.data);
+            const messagesDiv = document.getElementById('messages');
+            
+            const msgDiv = document.createElement('div');
+            msgDiv.className = 'message';
+            
+            if (data.username === username) {
+                msgDiv.classList.add('my-message');
+            } else {
+                msgDiv.classList.add('other-message');
+            }
+            
+            msgDiv.innerHTML = `<strong>${data.username}:</strong> ${data.message}`;
+            messagesDiv.appendChild(msgDiv);
+            
+            messagesDiv.scrollTop = messagesDiv.scrollHeight;
+        };
+
+        socket.onopen = function() {
+            console.log('WebSocket ulandi!');
+            addSystemMessage('Ulanish muvaffaqiyatli!');
+        };
+
+        socket.onerror = function(error) {
+            console.log('WebSocket xato:', error);
+            addSystemMessage('Xato yuz berdi!');
+        };
+
+        socket.onclose = function() {
+            addSystemMessage('Ulanish uzildi. Qayta ulanmoqda...');
+            setTimeout(() => {
+                location.reload(); // 5 soniyadan keyin qayta yuklash
+            }, 3000);
+        };
+
+        document.getElementById('msg').addEventListener('keyup', function(e) {
+            if (e.key === 'Enter') {
+                sendMessage();
+            }
+        });
+
+        function sendMessage() {
+            const input = document.getElementById('msg');
+            const message = input.value.trim();
+            
+            if (message === '') return;
+
+            socket.send(JSON.stringify({
+                'message': message,
+                'username': username
+            }));
+
+            input.value = '';
+            input.focus();
+        }
+
+        function addSystemMessage(text) {
+            const messagesDiv = document.getElementById('messages');
+            const div = document.createElement('div');
+            div.className = 'system';
+            div.textContent = text;
+            messagesDiv.appendChild(div);
+            messagesDiv.scrollTop = messagesDiv.scrollHeight;
+        }
+
+        window.onload = function() {
+            document.getElementById('msg').focus();
+        };
+    </script>
+</body>
+</html>
