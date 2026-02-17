@@ -2,39 +2,42 @@ from rest_framework import serializers
 from .models import Payment
 
 
-class PaymentSerializer(serializers.ModelSerializer):
-    user_name = serializers.CharField(
-        source="user.username",
-        read_only=True
-    )
+class PaymentCreateSerializer(serializers.ModelSerializer):
 
     class Meta:
         model = Payment
         fields = [
-            "id",
             "user",
-            "user_name",
             "course",
             "amount",
             "provider",
-            "status",
-            "transaction_id",
-            "receipt_number",
-            "payment_date",
             "note",
-            "created_at",
         ]
 
-        read_only_fields = (
-            "transaction_id",
-            "receipt_number",
-            "payment_date",
-            "status",
-            "user",
-        )
+    def create(self, validated_data):
+        request = self.context["request"]
 
-class PaymentStatusUpdateSerializer(serializers.ModelSerializer):
+        validated_data["created_by"] = request.user.userprofile
+        validated_data["status"] = Payment.Status.PENDING
+
+        return Payment.objects.create(**validated_data)
+
+
+class PaymentCreateSerializer(serializers.ModelSerializer):
 
     class Meta:
         model = Payment
-        fields = ["status", "note"]
+        fields = [
+            "user",
+            "course",
+            "amount",
+            "provider",
+            "note",
+        ]
+
+    def create(self, validated_data):
+        validated_data["status"] = Payment.Status.PENDING
+        validated_data["created_by"] = self.context["request"].user
+        return super().create(validated_data)
+
+
