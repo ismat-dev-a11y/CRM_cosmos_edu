@@ -1,97 +1,86 @@
-from rest_framework import generics, status
+from rest_framework import generics, status, response
+from django.shortcuts import get_object_or_404
 from rest_framework.permissions import IsAuthenticated
-from rest_framework import viewsets, filters
-from django_filters.rest_framework import DjangoFilterBackend
+from rest_framework.decorators import api_view
+from drf_spectacular.utils import extend_schema
+from rest_framework.viewsets import ModelViewSet
+
 # local
 from .models import Enrollment, Attendance, Assignment
-from .serializers import EnrollmentSerializers, EnrollmenStudentSerializer, AttendanceSerializer, AssignmentSerializer
+from .serializers import (
+    EnrollmentSerializers,
+    EnrollmenStudentSerializer,
+    AttendanceSerializer,
+    AssignmentSerializer,
+)
 from apps.users.permissions import IsStudent, IsAdminOrIsMentor
 
 
+@extend_schema(tags=["Enrollments"])
 class EnrollmentCreateAPIView(generics.CreateAPIView):
-  queryset = Enrollment.objects.all()
-  serializer_class = EnrollmentSerializers
-  permission_classes = [IsAuthenticated, IsStudent]
+    queryset = Enrollment.objects.all()
+    serializer_class = EnrollmentSerializers
+    permission_classes = [IsAuthenticated, IsStudent]
 
-  def perform_create(self, serializer):
-    serializer.save(student=self.request.user)
+    def perform_create(self, serializer):
+        serializer.save(student=self.request.user)
 
+
+@extend_schema(tags=["Enrollments"])
 class EnrollmentListAPIView(generics.ListAPIView):
-  serializer_class = EnrollmentSerializers
-  permission_classes = [IsAuthenticated]
+    serializer_class = EnrollmentSerializers
+    permission_classes = [IsAuthenticated]
 
-  def get_queryset(self):
-    user = self.request.user
-    if user.is_staff:
-      return Enrollment.objects.all()
-    return Enrollment.objects.filter(student=user)
+    def get_queryset(self):
+        user = self.request.user
+        if user.is_staff:
+            return Enrollment.objects.all()
+        return Enrollment.objects.filter(student=user)
 
+
+@extend_schema(tags=["Enrollments"])
 class EnrollmentUpdateDeleteAPIView(generics.RetrieveUpdateDestroyAPIView):
-  serializer_class = EnrollmenStudentSerializer
-  permission_classes = [IsAuthenticated, IsStudent]
+    serializer_class = EnrollmenStudentSerializer
+    permission_classes = [IsAuthenticated, IsStudent]
 
-  def get_queryset(self):
-    return Enrollment.objects.filter(student=self.request.user)
+    def get_queryset(self):
+        return Enrollment.objects.filter(student=self.request.user)
+
 
 # attendence
+@extend_schema(tags=["Attendence"])
 class AttendenceAPIView(generics.CreateAPIView):
-  queryset = Attendance.objects.all()
-  serializer_class = AttendanceSerializer
-  permission_classes = [IsAuthenticated, IsAdminOrIsMentor]
+    queryset = Attendance.objects.all()
+    serializer_class = AttendanceSerializer
+    permission_classes = [IsAuthenticated, IsAdminOrIsMentor]
 
+
+@extend_schema(tags=["Attendence"])
 class AttendenceListAPIView(generics.ListAPIView):
-  queryset = Attendance.objects.all()
-  serializer_class = AttendanceSerializer
-  permission_classes = [IsAuthenticated]
+    queryset = Attendance.objects.all()
+    serializer_class = AttendanceSerializer
+    permission_classes = [IsAuthenticated]
 
-class AttendenceRetrieveUpdateDestroyAPIView(generics.RetrieveUpdateDestroyAPIView):
-  queryset = Attendance.objects.all()
-  serializer_class = AttendanceSerializer
-  permission_classes = [IsAuthenticated, IsAdminOrIsMentor]
 
-# assignmen
+@extend_schema(
+    tags=["Attendance"],
+    request=AttendanceSerializer,
+    responses=AttendanceSerializer,
+)
+@api_view(['PUT'])
+def updateattendence(requests, pk):
+    attendence = get_object_or_404(Attendance, pk=pk)
+    serializer = AttendanceSerializer(attendence, data=requests.data, partial=True)
+    if serializer.is_valid():
+        serializer.save()
+        return response.Response(serializer.data)
+    return response.Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
 
-class AssignmentViewSet(viewsets.ModelViewSet):
-    queryset = Assignment.objects.select_related('lesson').all()
+# assignment
+
+
+@extend_schema(tags=["Assignment"])
+class AssignmentViewSet(ModelViewSet):
+    queryset = Assignment.objects.all().order_by("-created_at")
     serializer_class = AssignmentSerializer
     permission_classes = [IsAuthenticated]
-    filter_backends = [DjangoFilterBackend, filters.SearchFilter, filters.OrderingFilter]
-    filterset_fields = ['lesson', 'due_date']
-    search_fields = ['title', 'description']
-    ordering_fields = ['due_date', 'created_at']
-    ordering = ['-created_at']
-
-    def get_permissions(self):
-        if self.action in ['list', 'retrieve']:
-            return [IsAuthenticated()]
-        return [IsAuthenticated(), IsAdminOrIsMentor()]
-
-class AssignmentUpdateDeleteAPIView(generics.RetrieveUpdateDestroyAPIView):
-    queryset = Assignment.objects.select_related('lesson').all()
-    serializer_class = AssignmentSerializer
-    permission_classes = [IsAuthenticated, IsAdminOrIsMentor]
-    lookup_field = 'pk'
-
-    def update(self, request, *args, **kwargs):
-        partial = kwargs.pop('partial', False)
-        instance = self.get_object()
-        serializer = self.get_serializer(instance, data=request.data, partial=partial)
-        serializer.is_valid(raise_exception=True)
-        self.perform_update(serializer)
-
-        return Response({
-            "success": True,
-            "message": "Assignment muvaffaqiyatli yangilandi",
-            "data": serializer.data
-        })
-
-    def destroy(self, request, *args, **kwargs):
-        instance = self.get_object()
-        assignment_title = instance.title
-        assignment_id = instance.id
-        self.perform_destroy(instance)
-
-        return Response({
-            "success": True,
-            "message": f"Assignment #{assignment_id} '{assignment_title}' o'chirildi"
-        }, status=status.HTTP_200_OK)

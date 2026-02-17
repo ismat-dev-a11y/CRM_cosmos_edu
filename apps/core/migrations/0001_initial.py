@@ -7,38 +7,77 @@ class Migration(migrations.Migration):
 
     initial = True
 
-    dependencies = [
-    ]
+    dependencies = []
 
     operations = [
         migrations.CreateModel(
-            name='CenterSettings',
+            name="CenterSettings",
             fields=[
-                ('id', models.BigAutoField(auto_created=True, primary_key=True, serialize=False, verbose_name='ID')),
-                ('center_name', models.CharField(max_length=200, verbose_name='Markaz nomi')),
-                ('short_name', models.CharField(blank=True, max_length=100, verbose_name='Qisqa nomi')),
-                ('phone', models.CharField(max_length=20, verbose_name='Telefon raqami')),
-                ('email', models.EmailField(max_length=254, verbose_name='Email')),
-                ('address', models.TextField(verbose_name='Manzil')),
-                ('working_hours', models.CharField(max_length=200, verbose_name='Ish vaqti')),
+                (
+                    "id",
+                    models.BigAutoField(
+                        auto_created=True,
+                        primary_key=True,
+                        serialize=False,
+                        verbose_name="ID",
+                    ),
+                ),
+                (
+                    "center_name",
+                    models.CharField(max_length=200, verbose_name="Markaz nomi"),
+                ),
+                (
+                    "short_name",
+                    models.CharField(
+                        blank=True, max_length=100, verbose_name="Qisqa nomi"
+                    ),
+                ),
+                (
+                    "phone",
+                    models.CharField(max_length=20, verbose_name="Telefon raqami"),
+                ),
+                ("email", models.EmailField(max_length=254, verbose_name="Email")),
+                ("address", models.TextField(verbose_name="Manzil")),
+                (
+                    "working_hours",
+                    models.CharField(max_length=200, verbose_name="Ish vaqti"),
+                ),
             ],
             options={
-                'verbose_name': 'Markaz sozlamalari',
-                'verbose_name_plural': 'Markaz sozlamalari',
+                "verbose_name": "Markaz sozlamalari",
+                "verbose_name_plural": "Markaz sozlamalari",
             },
         ),
         migrations.CreateModel(
-            name='Certificate',
+            name="Certificate",
             fields=[
-                ('id', models.BigAutoField(auto_created=True, primary_key=True, serialize=False, verbose_name='ID')),
-                ('title', models.CharField(max_length=200, verbose_name='Sertifikat nomi')),
-                ('image', models.ImageField(default='certificates/wallhaven-qr27rq_uCDgbI4.jpg', upload_to='certificates/', verbose_name='Rasm')),
-                ('received_date', models.DateField(verbose_name='Olingan sana')),
+                (
+                    "id",
+                    models.BigAutoField(
+                        auto_created=True,
+                        primary_key=True,
+                        serialize=False,
+                        verbose_name="ID",
+                    ),
+                ),
+                (
+                    "title",
+                    models.CharField(max_length=200, verbose_name="Sertifikat nomi"),
+                ),
+                (
+                    "image",
+                    models.ImageField(
+                        default="certificates/wallhaven-qr27rq_uCDgbI4.jpg",
+                        upload_to="certificates/",
+                        verbose_name="Rasm",
+                    ),
+                ),
+                ("received_date", models.DateField(verbose_name="Olingan sana")),
             ],
             options={
-                'verbose_name': 'Sertifikat',
-                'verbose_name_plural': 'Sertifikatlar',
-                'ordering': ['-received_date'],
+                "verbose_name": "Sertifikat",
+                "verbose_name_plural": "Sertifikatlar",
+                "ordering": ["-received_date"],
             },
         ),
     ]

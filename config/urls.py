@@ -8,21 +8,21 @@ from drf_spectacular.views import (
     SpectacularSwaggerView,
     SpectacularRedocView,
 )
+
 urlpatterns = [
-    path('admin/', admin.site.urls),
-    path('users/', include('apps.users.urls')),
-    path('courses/', include('apps.courses.urls')),
-    path('enrollments/', include('apps.enrollments.urls')),
-    path('ratings/', include('apps.ratings.urls')),
-    path('payments/', include('apps.payments.urls')),
-    path('notifications/', include('apps.notifications.urls')),
-    path('groups/', include('apps.groups.urls')),
-    path('core/', include('apps.core.urls')),
-    path('tasks/', include('apps.tasks.urls')),
-
-    # for web socket
-    path('', TemplateView.as_view(template_name='chat.html')),
-
+    path("admin/", admin.site.urls),
+    path("", include("apps.users.urls")),
+    path("", include("apps.courses.urls")),
+    path("", include("apps.enrollments.urls")),
+    path("", include("apps.ratings.urls")),
+    path("", include("apps.payments.urls")),
+    path("", include("apps.notifications.urls")),
+    path("", include("apps.groups.urls")),
+    path("", include("apps.core.urls")),
+    path("", include("apps.tasks.urls")),
+    # websocket / chat
+    path("", TemplateView.as_view(template_name="chat.html")),
+    # swagger
     path("api/schema/", SpectacularAPIView.as_view(), name="schema"),
     path(
         "api/docs/",

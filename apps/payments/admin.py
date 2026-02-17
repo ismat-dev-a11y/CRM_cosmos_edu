@@ -2,35 +2,33 @@ from django.contrib import admin
 from .models import Payment
 from unfold.admin import ModelAdmin
 
+
 @admin.register(Payment)
 class PaymentAdmin(ModelAdmin):
     list_display = (
-        'user',
-        'course',
-        'amount_display',  # O'zgartirildi
-        'provider_display',  # O'zgartirildi
-        'status_display',  # O'zgartirildi
-        'payment_date',
+        "user",
+        "course",
+        "amount_display",  # O'zgartirildi
+        "provider_display",  # O'zgartirildi
+        "status_display",
+        "transaction_id",  # O'zgartirildi
+        "payment_date",
     )
 
-    list_filter = ('status', 'provider', 'course')
-    search_fields = ('user__username', 'receipt_number')
+    list_filter = ("status", "provider", "course")
+    search_fields = ("user__username", "receipt_number")
 
     readonly_fields = (
-        'receipt_number',
-        'payment_date',
+        "receipt_number",
+        "payment_date",
     )
 
     fieldsets = (
-        ('Asosiy', {
-            'fields': ('user', 'course', 'amount', 'provider', 'status')
-        }),
-        ('Izoh', {
-            'fields': ('note',)
-        }),
+        ("Asosiy", {"fields": ("user", "course", "amount", "provider", "status")}),
+        ("Izoh", {"fields": ("note",)}),
     )
 
-    @admin.display(description='Summa')
+    @admin.display(description="Summa")
     def amount_display(self, obj):
         # Decimal ni avval float ga o'tkazib, keyin formatlash
         try:
@@ -39,12 +37,12 @@ class PaymentAdmin(ModelAdmin):
         except:
             return "0 so'm"
 
-    @admin.display(description='Provider')
+    @admin.display(description="Provider")
     def provider_display(self, obj):
         # Faqat matn qaytarish
         return obj.get_provider_display()
 
-    @admin.display(description='Holat')
+    @admin.display(description="Holat")
     def status_display(self, obj):
         # Faqat matn qaytarish
         return obj.get_status_display()

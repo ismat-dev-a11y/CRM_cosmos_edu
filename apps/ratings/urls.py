@@ -1,9 +1,12 @@
-# ratings/urls.py
 from django.urls import path
-from .views import StudentApiView, RatingCreateView, RatingUpdateView
+from .views import *
 
 urlpatterns = [
-    path('student/<int:student_id>/chart/', StudentApiView.as_view()),
-    path('create/rating', RatingCreateView.as_view()),
-    path('update/<int:pk>/rating', RatingUpdateView.as_view())
+    path("ratings/", RatingCreateView.as_view(), name="rating-create"),
+    path("ratings/<int:pk>/", RatingDetailView.as_view(), name="rating-detail"),
+
+    path("ratings/my/", MyRatingsView.as_view(), name="my-ratings"),
+    path("ratings/given/", MentorGivenRatingsView.as_view(), name="mentor-ratings"),
+
+    path("ratings/top-students/", TopStudentsChartView.as_view(), name="top-students"),
 ]

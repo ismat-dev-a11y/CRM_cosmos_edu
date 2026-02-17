@@ -12,20 +12,12 @@ class ActiveRatingManager(models.Manager):
 
 class Rating(TimeStampedModel):
     student = models.ForeignKey(
-        UserProfile,
-        on_delete=models.CASCADE,
-        related_name='given_ratings'
+        UserProfile, on_delete=models.CASCADE, related_name="given_ratings"
     )
     mentor = models.ForeignKey(
-        UserProfile,
-        on_delete=models.CASCADE,
-        related_name='received_ratings'
+        UserProfile, on_delete=models.CASCADE, related_name="received_ratings"
     )
-    course = models.ForeignKey(
-        Course,
-        on_delete=models.CASCADE,
-        related_name='ratings'
-    )
+    course = models.ForeignKey(Course, on_delete=models.CASCADE, related_name="ratings")
 
     score = models.PositiveSmallIntegerField(
         validators=[MinValueValidator(1), MaxValueValidator(5)]
@@ -33,13 +25,12 @@ class Rating(TimeStampedModel):
     comment = models.TextField(blank=True)
     is_active = models.BooleanField(default=True)
 
-    
-    objects = models.Manager()        
-    active = ActiveRatingManager()   
+    objects = models.Manager()
+    active = ActiveRatingManager()
 
     class Meta:
-        unique_together = ('student', 'mentor', 'course')
-        ordering = ['-created_at']
+        unique_together = ("student", "mentor", "course")
+        ordering = ["-created_at"]
 
     def __str__(self):
         return f"{self.student} → {self.mentor} | {self.course} | {self.score}"

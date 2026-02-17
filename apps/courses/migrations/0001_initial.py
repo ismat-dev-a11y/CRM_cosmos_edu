@@ -15,33 +15,108 @@ class Migration(migrations.Migration):
 
     operations = [
         migrations.CreateModel(
-            name='Course',
+            name="Course",
             fields=[
-                ('id', models.BigAutoField(auto_created=True, primary_key=True, serialize=False, verbose_name='ID')),
-                ('title', models.CharField(max_length=200)),
-                ('level', models.CharField(choices=[('beginner', 'Beginner'), ('intermediate', 'Intermediate'), ('advanced', 'Advanced')], default='beginner', max_length=20)),
-                ('description', models.TextField(blank=True)),
-                ('max_students', models.PositiveIntegerField(default=20)),
-                ('is_active', models.BooleanField(default=True)),
-                ('price', models.DecimalField(decimal_places=2, default=0, max_digits=10)),
-                ('duration_weeks', models.PositiveIntegerField(default=12)),
-                ('image', models.ImageField(blank=True, null=True, upload_to='courses/')),
-                ('created_at', models.DateTimeField(auto_now_add=True)),
+                (
+                    "id",
+                    models.BigAutoField(
+                        auto_created=True,
+                        primary_key=True,
+                        serialize=False,
+                        verbose_name="ID",
+                    ),
+                ),
+                ("title", models.CharField(max_length=200)),
+                (
+                    "level",
+                    models.CharField(
+                        choices=[
+                            ("beginner", "Beginner"),
+                            ("intermediate", "Intermediate"),
+                            ("advanced", "Advanced"),
+                        ],
+                        default="beginner",
+                        max_length=20,
+                    ),
+                ),
+                ("description", models.TextField(blank=True)),
+                ("max_students", models.PositiveIntegerField(default=20)),
+                ("is_active", models.BooleanField(default=True)),
+                (
+                    "price",
+                    models.DecimalField(decimal_places=2, default=0, max_digits=10),
+                ),
+                ("duration_weeks", models.PositiveIntegerField(default=12)),
+                (
+                    "image",
+                    models.ImageField(blank=True, null=True, upload_to="courses/"),
+                ),
+                ("created_at", models.DateTimeField(auto_now_add=True)),
             ],
         ),
         migrations.CreateModel(
-            name='Lesson',
+            name="Lesson",
             fields=[
-                ('id', models.BigAutoField(auto_created=True, primary_key=True, serialize=False, verbose_name='ID')),
-                ('day', models.CharField(choices=[('mon', 'Monday'), ('tue', 'Tuesday'), ('wed', 'Wednesday'), ('thu', 'Thursday'), ('fri', 'Friday'), ('sat', 'Saturday'), ('sun', 'Sunday')], max_length=3)),
-                ('start_time', models.TimeField()),
-                ('end_time', models.TimeField()),
-                ('title', models.CharField(default='Lesson', max_length=200)),
-                ('week_number', models.PositiveIntegerField(default=1)),
-                ('lesson_type', models.CharField(choices=[('theory', 'Theory'), ('practice', 'Practice'), ('project', 'Project'), ('exam', 'Exam')], default='theory', max_length=20)),
-                ('is_completed', models.BooleanField(default=False)),
-                ('course', models.ForeignKey(on_delete=django.db.models.deletion.CASCADE, related_name='course_lessons', to='courses.course')),
-                ('mentor', models.ForeignKey(limit_choices_to={'role': 'MENTOR'}, null=True, on_delete=django.db.models.deletion.SET_NULL, related_name='mentor_lessons', to=settings.AUTH_USER_MODEL)),
+                (
+                    "id",
+                    models.BigAutoField(
+                        auto_created=True,
+                        primary_key=True,
+                        serialize=False,
+                        verbose_name="ID",
+                    ),
+                ),
+                (
+                    "day",
+                    models.CharField(
+                        choices=[
+                            ("mon", "Monday"),
+                            ("tue", "Tuesday"),
+                            ("wed", "Wednesday"),
+                            ("thu", "Thursday"),
+                            ("fri", "Friday"),
+                            ("sat", "Saturday"),
+                            ("sun", "Sunday"),
+                        ],
+                        max_length=3,
+                    ),
+                ),
+                ("start_time", models.TimeField()),
+                ("end_time", models.TimeField()),
+                ("title", models.CharField(default="Lesson", max_length=200)),
+                ("week_number", models.PositiveIntegerField(default=1)),
+                (
+                    "lesson_type",
+                    models.CharField(
+                        choices=[
+                            ("theory", "Theory"),
+                            ("practice", "Practice"),
+                            ("project", "Project"),
+                            ("exam", "Exam"),
+                        ],
+                        default="theory",
+                        max_length=20,
+                    ),
+                ),
+                ("is_completed", models.BooleanField(default=False)),
+                (
+                    "course",
+                    models.ForeignKey(
+                        on_delete=django.db.models.deletion.CASCADE,
+                        related_name="course_lessons",
+                        to="courses.course",
+                    ),
+                ),
+                (
+                    "mentor",
+                    models.ForeignKey(
+                        limit_choices_to={"role": "MENTOR"},
+                        null=True,
+                        on_delete=django.db.models.deletion.SET_NULL,
+                        related_name="mentor_lessons",
+                        to=settings.AUTH_USER_MODEL,
+                    ),
+                ),
             ],
         ),
     ]

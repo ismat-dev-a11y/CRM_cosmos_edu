@@ -1,34 +1,24 @@
-services:
-  web:
-    build: .
-    command: gunicorn config.wsgi:application --bind 0.0.0.0:8000
-    env_file:
-      - .env
-    depends_on:
-      - db
-    volumes:
-      - static_volume:/app/static
-      - media_volume:/app/media
+version: "3.9"
 
-  db:
-    image: postgres:15-alpine
+services:
+  backend:
+    build: .
+    container_name: django_backend
+    volumes:
+      - .:/app
+    expose:
+      - "8000"
     env_file:
       - .env
-    volumes:
-      - postgres_data:/var/lib/postgresql/data
 
   nginx:
     image: nginx:alpine
+    container_name: nginx_server
     ports:
       - "80:80"
-    depends_on:
-      - web
     volumes:
-      - ./nginx:/etc/nginx/conf.d
-      - static_volume:/app/static
-      - media_volume:/app/media
-
-volumes:
-  postgres_data:
-  static_volume:
-  media_volume:
+      - ./nginx/nginx.conf:/etc/nginx/nginx.conf
+      - ./media:/app/media
+      - ./static:/app/static
+    depends_on:
+      - backend

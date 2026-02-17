@@ -1,34 +1,40 @@
 from rest_framework import serializers
 from .models import Payment
+
+
 class PaymentSerializer(serializers.ModelSerializer):
-    user_name = serializers.ReadOnlyField(source='user.username')
-    course_name = serializers.ReadOnlyField(source='course.title')
+    user_name = serializers.CharField(
+        source="user.username",
+        read_only=True
+    )
 
     class Meta:
         model = Payment
         fields = [
-            'id',
-            'user_name',
-            'course',
-            'course_name',
-            'amount',
-            'provider',
-            'status',
-            'transaction_id',
-            'receipt_number',
-            'payment_date',
-            'note',
-        ]
-        read_only_fields = [
-            'transaction_id',
-            'receipt_number',
-            'payment_date',
+            "id",
+            "user",
+            "user_name",
+            "course",
+            "amount",
+            "provider",
+            "status",
+            "transaction_id",
+            "receipt_number",
+            "payment_date",
+            "note",
+            "created_at",
         ]
 
-    def to_representation(self, instance):
-        representation = super().to_representation(instance)
+        read_only_fields = (
+            "transaction_id",
+            "receipt_number",
+            "payment_date",
+            "status",
+            "user",
+        )
 
-        if 'amount' in representation and representation['amount'] is not None:
-            representation['amount'] = float(representation['amount'])
+class PaymentStatusUpdateSerializer(serializers.ModelSerializer):
 
-        return representation
+    class Meta:
+        model = Payment
+        fields = ["status", "note"]

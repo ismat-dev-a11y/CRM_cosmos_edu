@@ -1,8 +1,15 @@
-from django.urls import path, include
-from .views import DailyTaskListCreateView, MarkHomeWork
-
+from django.urls import path
+from .views import *
 
 urlpatterns = [
-    path('', DailyTaskListCreateView.as_view()),
-    path('completed/<int:pk>/', MarkHomeWork.as_view())
+
+    # TASKS
+    path("tasks/", DailyTaskListCreateView.as_view()),
+
+    # HOMEWORK
+    path("homework/submit/", HomeworkSubmitView.as_view()),
+    path("homework/my/", MySubmissionsView.as_view()),
+
+    # REVIEW
+    path("homework/review/", HomeworkReviewCreateView.as_view()),
 ]

@@ -2,16 +2,18 @@
 from django.urls import path, include
 from rest_framework.routers import DefaultRouter
 from .views import *
+
 router = DefaultRouter()
-router.register('assignments', AssignmentViewSet, basename='assignment')
+router.register("assignments", AssignmentViewSet, basename="assignment")
+# router.register("assignment", AssignmentViewSet)
 
 urlpatterns = [
-  path('api/enrollment/create', EnrollmentCreateAPIView.as_view()),
-  path('api/enrollment/list', EnrollmentListAPIView.as_view()),
-  path('api/update/delete/<int:pk>', EnrollmentUpdateDeleteAPIView.as_view()),
-
-  path('api/attendence/create', AttendenceAPIView.as_view()),
-  path('api/attendence/list', AttendenceListAPIView.as_view()),
-  path('', include(router.urls)),
-  path('api/assignment/action', AssignmentUpdateDeleteAPIView.as_view())
+    path("enrollment/create", EnrollmentCreateAPIView.as_view()),
+    path("enrollment/list", EnrollmentListAPIView.as_view()),
+    path("update/delete/<int:pk>", EnrollmentUpdateDeleteAPIView.as_view()),
+    path("attendence/create", AttendenceAPIView.as_view()),
+    path("attendence/list", AttendenceListAPIView.as_view()),
+    path("attendence/update/<int:pk>", updateattendence),
+    path("", include(router.urls)),
+    # path("" ,include(router.urls)),
 ]

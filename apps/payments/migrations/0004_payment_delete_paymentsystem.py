@@ -10,35 +10,94 @@ from django.db import migrations, models
 class Migration(migrations.Migration):
 
     dependencies = [
-        ('courses', '0001_initial'),
-        ('payments', '0003_alter_paymentsystem_user'),
+        ("courses", "0001_initial"),
+        ("payments", "0003_alter_paymentsystem_user"),
         migrations.swappable_dependency(settings.AUTH_USER_MODEL),
     ]
 
     operations = [
         migrations.CreateModel(
-            name='Payment',
+            name="Payment",
             fields=[
-                ('id', models.BigAutoField(auto_created=True, primary_key=True, serialize=False, verbose_name='ID')),
-                ('created_at', models.DateTimeField(auto_now_add=True)),
-                ('updated_at', models.DateTimeField(auto_now=True)),
-                ('amount', models.DecimalField(decimal_places=2, max_digits=10, validators=[django.core.validators.MinValueValidator(0.01)])),
-                ('provider', models.CharField(choices=[('PAYME', 'Payme'), ('CLICK', 'Click'), ('CASH', 'Cash'), ('BANK', 'Bank transfer')], max_length=20)),
-                ('status', models.CharField(choices=[('PENDING', 'Pending'), ('SUCCESS', 'Success'), ('FAILED', 'Failed'), ('CANCELLED', 'Cancelled')], default='PENDING', max_length=20)),
-                ('transaction_id', models.UUIDField(default=uuid.uuid4, editable=False, unique=True)),
-                ('receipt_number', models.CharField(blank=True, max_length=50, null=True, unique=True)),
-                ('payment_date', models.DateTimeField(blank=True, null=True)),
-                ('note', models.TextField(blank=True)),
-                ('course', models.ForeignKey(blank=True, null=True, on_delete=django.db.models.deletion.SET_NULL, to='courses.course')),
-                ('user', models.ForeignKey(on_delete=django.db.models.deletion.PROTECT, related_name='payments', to=settings.AUTH_USER_MODEL)),
+                (
+                    "id",
+                    models.BigAutoField(
+                        auto_created=True,
+                        primary_key=True,
+                        serialize=False,
+                        verbose_name="ID",
+                    ),
+                ),
+                ("created_at", models.DateTimeField(auto_now_add=True)),
+                ("updated_at", models.DateTimeField(auto_now=True)),
+                (
+                    "amount",
+                    models.DecimalField(
+                        decimal_places=2,
+                        max_digits=10,
+                        validators=[django.core.validators.MinValueValidator(0.01)],
+                    ),
+                ),
+                (
+                    "provider",
+                    models.CharField(
+                        choices=[
+                            ("PAYME", "Payme"),
+                            ("CLICK", "Click"),
+                            ("CASH", "Cash"),
+                            ("BANK", "Bank transfer"),
+                        ],
+                        max_length=20,
+                    ),
+                ),
+                (
+                    "status",
+                    models.CharField(
+                        choices=[
+                            ("PENDING", "Pending"),
+                            ("SUCCESS", "Success"),
+                            ("FAILED", "Failed"),
+                            ("CANCELLED", "Cancelled"),
+                        ],
+                        default="PENDING",
+                        max_length=20,
+                    ),
+                ),
+                (
+                    "transaction_id",
+                    models.UUIDField(default=uuid.uuid4, editable=False, unique=True),
+                ),
+                (
+                    "receipt_number",
+                    models.CharField(blank=True, max_length=50, null=True, unique=True),
+                ),
+                ("payment_date", models.DateTimeField(blank=True, null=True)),
+                ("note", models.TextField(blank=True)),
+                (
+                    "course",
+                    models.ForeignKey(
+                        blank=True,
+                        null=True,
+                        on_delete=django.db.models.deletion.SET_NULL,
+                        to="courses.course",
+                    ),
+                ),
+                (
+                    "user",
+                    models.ForeignKey(
+                        on_delete=django.db.models.deletion.PROTECT,
+                        related_name="payments",
+                        to=settings.AUTH_USER_MODEL,
+                    ),
+                ),
             ],
             options={
-                'verbose_name': 'Payment',
-                'verbose_name_plural': 'Payments',
-                'ordering': ['-created_at'],
+                "verbose_name": "Payment",
+                "verbose_name_plural": "Payments",
+                "ordering": ["-created_at"],
             },
         ),
         migrations.DeleteModel(
-            name='PaymentSystem',
+            name="PaymentSystem",
         ),
     ]

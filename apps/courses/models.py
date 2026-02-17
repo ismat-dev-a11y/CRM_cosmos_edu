@@ -1,32 +1,28 @@
 from django.db import models
 from apps.users.models import UserProfile
+
+
 class Course(models.Model):
     COURSE_LEVEL_CHOICES = [
-        ('beginner', 'Beginner'),
-        ('intermediate', 'Intermediate'),
-        ('advanced', 'Advanced'),
+        ("beginner", "Beginner"),
+        ("intermediate", "Intermediate"),
+        ("advanced", "Advanced"),
     ]
 
     title = models.CharField(max_length=200)
     level = models.CharField(
-        max_length=20,
-        choices=COURSE_LEVEL_CHOICES,
-        default='beginner'
+        max_length=20, choices=COURSE_LEVEL_CHOICES, default="beginner"
     )
 
     description = models.TextField(blank=True)
     max_students = models.PositiveIntegerField(default=20)
     is_active = models.BooleanField(default=True)
 
-    price = models.DecimalField(
-        max_digits=10,
-        decimal_places=2,
-        default=0
-    )
+    price = models.DecimalField(max_digits=10, decimal_places=2, default=0)
 
     duration_weeks = models.PositiveIntegerField(default=12)
 
-    image = models.ImageField(upload_to='courses/', null=True, blank=True)
+    image = models.ImageField(upload_to="courses/", null=True, blank=True)
 
     created_at = models.DateTimeField(auto_now_add=True)
 
@@ -41,35 +37,31 @@ class Course(models.Model):
     def is_available(self):
         return self.current_students_count < self.max_students and self.is_active
 
+
 class Lesson(models.Model):
     DAYS_CHOICES = [
-        ('mon', 'Monday'),
-        ('tue', 'Tuesday'),
-        ('wed', 'Wednesday'),
-        ('thu', 'Thursday'),
-        ('fri', 'Friday'),
-        ('sat', 'Saturday'),
-        ('sun', 'Sunday'),
+        ("mon", "Monday"),
+        ("tue", "Tuesday"),
+        ("wed", "Wednesday"),
+        ("thu", "Thursday"),
+        ("fri", "Friday"),
+        ("sat", "Saturday"),
+        ("sun", "Sunday"),
     ]
 
     course = models.ForeignKey(
-        Course,
-        on_delete=models.CASCADE,
-        related_name='course_lessons'
+        Course, on_delete=models.CASCADE, related_name="course_lessons"
     )
 
     mentor = models.ForeignKey(
         UserProfile,
         on_delete=models.SET_NULL,
         null=True,
-        related_name='mentor_lessons',
-        limit_choices_to={'role': 'MENTOR'}
+        related_name="mentor_lessons",
+        limit_choices_to={"role": "MENTOR"},
     )
 
-    day = models.CharField(
-        max_length=3,
-        choices=DAYS_CHOICES
-    )
+    day = models.CharField(max_length=3, choices=DAYS_CHOICES)
 
     start_time = models.TimeField()
     end_time = models.TimeField()
@@ -81,12 +73,12 @@ class Lesson(models.Model):
     lesson_type = models.CharField(
         max_length=20,
         choices=[
-            ('theory', 'Theory'),
-            ('practice', 'Practice'),
-            ('project', 'Project'),
-            ('exam', 'Exam'),
+            ("theory", "Theory"),
+            ("practice", "Practice"),
+            ("project", "Project"),
+            ("exam", "Exam"),
         ],
-        default='theory'
+        default="theory",
     )
 
     is_completed = models.BooleanField(default=False)

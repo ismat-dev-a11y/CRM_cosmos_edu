@@ -17,8 +17,8 @@ class GroupStudentInline(TabularInline):
 
 @admin.register(Room)
 class RoomAdmin(ModelAdmin):
-    list_display = ['name', 'capacity_display']
-    search_fields = ['name']
+    list_display = ['id', "name", "capacity_display"]
+    search_fields = ["name"]
 
     @display(description="Sig'imi", label=True)
     def capacity_display(self, obj):
@@ -27,9 +27,9 @@ class RoomAdmin(ModelAdmin):
 
 @admin.register(GroupStudent)
 class GroupStudentAdmin(ModelAdmin):
-    list_display = ['student', 'group', 'status_label', 'joined_at']
-    list_filter = ['status', 'group']
-    search_fields = ['student__username', 'group__name']
+    list_display = ["student", "group", "status_label", "joined_at"]
+    list_filter = ["status", "group"]
+    search_fields = ["student__username", "group__name"]
 
     @display(
         description="Status",
@@ -37,7 +37,7 @@ class GroupStudentAdmin(ModelAdmin):
             "ACTIVE": "success",
             "FROZEN": "info",
             "LEFT": "danger",
-        }
+        },
     )
     def status_label(self, obj):
         return obj.get_status_display()
@@ -47,36 +47,43 @@ class GroupStudentAdmin(ModelAdmin):
 class GroupAdmin(ModelAdmin):
     # 🔑 MUHIM FIX — TimeField uchun
     formfield_overrides = {
-        models.TimeField: {
-            "widget": forms.TimeInput(format="%H:%M")
-        }
+        models.TimeField: {"widget": forms.TimeInput(format="%H:%M")}
     }
 
     list_display = [
-        'id',
-        'name',
-        'course_link',
-        'mentor',
-        'lesson_time',
-        'status_badge',
-        'student_count'
+        "id",
+        "name",
+        "course_link",
+        "mentor",
+        "lesson_time",
+        "status_badge",
+        "student_count",
     ]
 
-    list_filter = ['status', 'course']
-    search_fields = ['name', 'mentor__username']
+    list_filter = ["status", "course"]
+    search_fields = ["name", "mentor__username"]
     inlines = [GroupStudentInline]
 
     fieldsets = (
-        ("Asosiy Ma'lumotlar", {
-            "fields": (("name", "status"), ("course", "mentor"), "room")
-        }),
-        ("Dars Jadvali", {
-            "fields": (("lesson_days", "start_time", "end_time"),
-                       ("start_date", "end_date"))
-        }),
-        ("Cheklovlar", {
-            "fields": ("max_students",),
-        }),
+        (
+            "Asosiy Ma'lumotlar",
+            {"fields": (("name", "status"), ("course", "mentor"), "room")},
+        ),
+        (
+            "Dars Jadvali",
+            {
+                "fields": (
+                    ("lesson_days", "start_time", "end_time"),
+                    ("start_date", "end_date"),
+                )
+            },
+        ),
+        (
+            "Cheklovlar",
+            {
+                "fields": ("max_students",),
+            },
+        ),
     )
 
     @display(description="Kurs", header=True)
@@ -94,7 +101,7 @@ class GroupAdmin(ModelAdmin):
             "ACTIVE": "success",
             "WAITING": "warning",
             "FINISHED": "secondary",
-        }
+        },
     )
     def status_badge(self, obj):
         return obj.status
