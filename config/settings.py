@@ -23,7 +23,7 @@ ALLOWED_HOSTS = [
     "127.0.0.1",
 ]
 CSRF_TRUSTED_ORIGINS = [
-    "http://cosmos-edu.duckdns.org",
+    "https://cosmos-edu.duckdns.org",
 ]
 
 AUTH_USER_MODEL = "users.UserProfile"
