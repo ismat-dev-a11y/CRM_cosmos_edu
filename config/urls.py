@@ -21,7 +21,7 @@ urlpatterns = [
     path("", include("apps.core.urls")),
     path("", include("apps.tasks.urls")),
     # websocket / chat
-    path("", TemplateView.as_view(template_name="chat.html")),
+    # path("", TemplateView.as_view(template_name="chat.html")),
     # swagger
     path("api/schema/", SpectacularAPIView.as_view(), name="schema"),
     path(

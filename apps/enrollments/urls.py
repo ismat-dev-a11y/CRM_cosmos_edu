@@ -8,12 +8,12 @@ router.register("assignments", AssignmentViewSet, basename="assignment")
 # router.register("assignment", AssignmentViewSet)
 
 urlpatterns = [
-    path("enrollment/create", EnrollmentCreateAPIView.as_view()),
-    path("enrollment/list", EnrollmentListAPIView.as_view()),
-    path("update/delete/<int:pk>", EnrollmentUpdateDeleteAPIView.as_view()),
-    path("attendence/create", AttendenceAPIView.as_view()),
-    path("attendence/list", AttendenceListAPIView.as_view()),
-    path("attendence/update/<int:pk>", updateattendence),
+    path("enrollment", EnrollmentCreateAPIView.as_view()),
+    path("enrollment", EnrollmentListAPIView.as_view()),
+    path("enrollment/<int:pk>", EnrollmentUpdateDeleteAPIView.as_view()),
+    path("attendence", AttendenceAPIView.as_view()),
+    path("attendence", AttendenceListAPIView.as_view()),
+    path("attendence/<int:pk>", updateattendence),
     path("", include(router.urls)),
     # path("" ,include(router.urls)),
 ]

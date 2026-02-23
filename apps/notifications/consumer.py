@@ -1,35 +1,42 @@
 import json
 from channels.generic.websocket import AsyncWebsocketConsumer
+from channels.db import database_sync_to_async
+from .models import Notification
 
+class NotificationConsumer(AsyncWebsocketConsumer):
 
-class ChatConsumer(AsyncWebsocketConsumer):
     async def connect(self):
-        self.room_name = "public_chat"
-        await self.channel_layer.group_add(self.room_name, self.channel_name)
+        user = self.scope['user']
+
+        if user.is_anonymous:
+            await self.close()
+            return
+
+        self.group_name = f'notifications_user_{user.id}'
+
+        await self.channel_layer.group_add(
+            self.group_name,
+            self.channel_name
+        )
         await self.accept()
 
     async def disconnect(self, close_code):
-        await self.channel_layer.group_discard(self.room_name, self.channel_name)
+        await self.channel_layer.group_discard(
+            self.group_name,
+            self.channel_name
+        )
 
     async def receive(self, text_data):
         data = json.loads(text_data)
-        message = data["message"]
+        if data.get('type') == 'mark_read':
+            await self.mark_as_read(data['notification_id'])
 
-        await self.channel_layer.group_send(
-            self.room_name,
-            {
-                "type": "chat_message",
-                "message": message,
-                "username": self.scope["user"].username,
-            },
-        )
+    async def send_notification(self, event):
+        await self.send(text_data=json.dumps({
+            'type': 'new_notification',
+            'notification': event['notification']
+        }))
 
-    async def chat_message(self, event):
-        await self.send(
-            text_data=json.dumps(
-                {
-                    "message": event["message"],
-                    "username": event["username"],
-                }
-            )
-        )
+    @database_sync_to_async
+    def mark_as_read(self, notification_id):
+        Notification.objects.filter(id=notification_id).update(is_read=True)
