@@ -3,7 +3,7 @@ from .models import Enrollment, Attendance, Assignment
 
 
 class EnrollmentSerializers(serializers.ModelSerializer):
-    student_name = serializers.ReadOnlyField(source="student.full_name")
+    student_name = serializers.ReadOnlyField(source="student.username")
     course_title = serializers.ReadOnlyField(source="course.title")
 
     class Meta:

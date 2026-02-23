@@ -97,21 +97,31 @@ class MentorGivenRatingsView(ListAPIView):
             is_active=True
         )
 
+from drf_spectacular.utils import extend_schema, inline_serializer
+from rest_framework import serializers
+
 @extend_schema(
     tags=["Ratings"],
-    summary="Top students chart"
+    summary="Top students chart",
+    responses={
+        200: inline_serializer(
+            name="TopStudentsChart",
+            fields={
+                "student__id": serializers.IntegerField(),
+                "student__username": serializers.CharField(),
+                "avg_score": serializers.FloatField(),
+            }
+        )
+    }
 )
 class TopStudentsChartView(APIView):
     permission_classes = [IsAuthenticatedAndActive, IsAdmin]
 
     def get(self, request):
-
         data = (
             Rating.objects.filter(is_active=True)
             .values("student__id", "student__username")
             .annotate(avg_score=Avg("score"))
             .order_by("-avg_score")
         )
-
         return Response(data)
-
