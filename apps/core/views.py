@@ -110,18 +110,22 @@ class ImageUploadView(APIView):
         if not image:
             return Response({"error": "Rasm yuborilmadi"}, status=400)
 
-        image_data = base64.b64encode(image.read()).decode("utf-8")
+        image_bytes = image.read()
+        image_base64 = base64.b64encode(image_bytes).decode('utf-8')
 
-        response = requests.post(
-            "https://api.imgbb.com/1/upload",
-            data={
-                "key": "YOUR_IMGBB_API_KEY",
-                "image": image_data,
-            }
-        )
+        url = "https://api.imgbb.com/1/upload"
+        payload = {
+            "key": "2359d64da450ab908b2ba891d9d3c21e",
+            "image": image_base64
+        }
+
+        response = requests.post(url, data=payload)
 
         if response.status_code == 200:
-            url = response.json()["data"]["url"]
-            return Response({"image_url": url}, status=200)
+            return Response({
+                "image_url": response.json()["data"]["url"]
+            })
 
-        return Response({"error": "Yuklash xatosi"}, status=400)
+        return Response({
+            "error": response.json()
+        }, status=400)
