@@ -20,14 +20,14 @@ urlpatterns = [
     path("", include("apps.groups.urls")),
     path("", include("apps.core.urls")),
     path("", include("apps.tasks.urls")),
-    # websocket / chat
-    # path("", TemplateView.as_view(template_name="chat.html")),
+
     # swagger
     path("api/schema/", SpectacularAPIView.as_view(), name="schema"),
-    path(
-        "api/docs/",
-        SpectacularSwaggerView.as_view(url_name="schema"),
-        name="swagger-ui",
-    ),
+    path("api/docs/", SpectacularSwaggerView.as_view(url_name="schema"), name="swagger-ui"),
     path("api/redoc/", SpectacularRedocView.as_view(url_name="schema"), name="redoc"),
-] + static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT)
+]
+
+# ✅ DEVELOPMENT uchun static + media
+if settings.DEBUG:
+    urlpatterns += static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT)
+    urlpatterns += static(settings.STATIC_URL, document_root=settings.STATIC_ROOT)

@@ -82,6 +82,7 @@ MIDDLEWARE = [
     "django.contrib.auth.middleware.AuthenticationMiddleware",
     "django.contrib.messages.middleware.MessageMiddleware",
     "django.middleware.clickjacking.XFrameOptionsMiddleware",
+    "whitenoise.middleware.WhiteNoiseMiddleware",
 ]
 CORS_ALLOWED_ORIGINS = [
     "http://cosmos-edu.duckdns.org",
@@ -173,9 +174,13 @@ USE_I18N = True
 USE_TZ = True
 
 
-STATIC_URL = "/static/"
-STATIC_ROOT = BASE_DIR / "staticfiles"
+STATIC_URL = '/static/'
 
+STATICFILES_DIRS = [
+    BASE_DIR / "static",
+]
+
+STATIC_ROOT = BASE_DIR / "staticfiles"
 
 CHANNEL_LAYERS = {
     "default": {
@@ -202,7 +207,7 @@ MEDIA_URL = "/media/"
 MEDIA_ROOT = BASE_DIR / "media/"
 
 # logging
-
+#
 # LOG_DIR = BASE_DIR / "logs"
 # LOG_DIR.mkdir(exist_ok=True)
 
@@ -236,4 +241,4 @@ MEDIA_ROOT = BASE_DIR / "media/"
 FRONTEND_PASSWORD_RESET_URL = "http://localhost:3000/reset-password"
 
 
-STATICFILES_STORAGE = "whitenoise.storage.CompressedManifestStaticFilesStorage"
+# STATICFILES_STORAGE = "whitenoise.storage.CompressedManifestStaticFilesStorage"
