@@ -51,15 +51,23 @@ class CourseReadSerializers(serializers.ModelSerializer):
 
 
 class CourseCreateSerializer(serializers.ModelSerializer):
-    image = serializers.ImageField()
-    current_students_count = serializers.IntegerField(read_only=True)  # ✅
-    is_available = serializers.BooleanField(read_only=True)             # ✅
+    current_students_count = serializers.IntegerField(read_only=True)
+    is_available = serializers.BooleanField(read_only=True)
 
     class Meta:
         model = Course
         fields = (
+            "id",
+            "title",
+            "level",
+            "description",
+            "max_students",
+            "is_active",
+            "price",
+            "duration_weeks",
             "image",
+            "created_at",
             "current_students_count",
             "is_available",
-            "created_at",
         )
+        read_only_fields = ("created_at", "current_students_count", "is_available")
