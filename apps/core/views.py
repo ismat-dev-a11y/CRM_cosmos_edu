@@ -77,19 +77,41 @@ class CenterSettingsAPIView(APIView):
 
         return Response(serializer.data, status=200)
 
-@extend_schema(tags=["Upload"])
+from rest_framework.views import APIView
+from rest_framework.response import Response
+from rest_framework.permissions import IsAuthenticated
+from rest_framework.parsers import MultiPartParser, FormParser
+from drf_spectacular.utils import extend_schema, OpenApiTypes
+from drf_spectacular.openapi import AutoSchema
+import requests
+import base64
+
+@extend_schema(
+    tags=["Upload"],
+    request={
+        "multipart/form-data": {
+            "type": "object",
+            "properties": {
+                "image": {
+                    "type": "string",
+                    "format": "binary",
+                }
+            },
+            "required": ["image"]
+        }
+    }
+)
 class ImageUploadView(APIView):
     permission_classes = [IsAuthenticated]
+    parser_classes = [MultiPartParser, FormParser]
 
     def post(self, request):
         image = request.FILES.get("image")
         if not image:
             return Response({"error": "Rasm yuborilmadi"}, status=400)
 
-        # Base64 ga o'girish
         image_data = base64.b64encode(image.read()).decode("utf-8")
 
-        # IMGbb ga yuborish
         response = requests.post(
             "https://api.imgbb.com/1/upload",
             data={
