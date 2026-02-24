@@ -27,7 +27,10 @@ class UserVerifyLogin(generics.CreateAPIView):
                 status=status.HTTP_400_BAD_REQUEST,
             )
         try:
-            user = UserProfile.objects.get(phone_number=phone_number, password=password)
+            user = UserProfile.objects.get(phone_number=phone_number)
+            if not user.check_password(password):
+                return Response({"detail": "Invalid creditianals"}, status=401)
+
         except UserProfile.DoesNotExist:
             return Response({"detail": "Invalid creditianals"}, status=401)
 
