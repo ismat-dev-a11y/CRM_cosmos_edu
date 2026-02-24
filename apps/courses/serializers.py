@@ -53,6 +53,8 @@ class CourseReadSerializers(serializers.ModelSerializer):
 class CourseCreateSerializer(serializers.ModelSerializer):
     current_students_count = serializers.IntegerField(read_only=True)
     is_available = serializers.BooleanField(read_only=True)
+    image = serializers.ImageField(required=False)  # file upload uchun
+    image_url = serializers.URLField(required=False, write_only=True)  # URL uchun
 
     class Meta:
         model = Course
@@ -66,8 +68,20 @@ class CourseCreateSerializer(serializers.ModelSerializer):
             "price",
             "duration_weeks",
             "image",
+            "image_url",
             "created_at",
             "current_students_count",
             "is_available",
         )
         read_only_fields = ("created_at", "current_students_count", "is_available")
+
+    def validate(self, attrs):
+        image_url = attrs.pop("image_url", None)
+        if image_url:
+            import urllib.request
+            from django.core.files.base import ContentFile
+            import os
+            response = urllib.request.urlopen(image_url)
+            file_name = os.path.basename(image_url)
+            attrs["image"] = ContentFile(response.read(), name=file_name)
+        return attrs
