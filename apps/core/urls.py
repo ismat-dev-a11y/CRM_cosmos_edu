@@ -5,8 +5,6 @@ from .views import CertificateViewSet, CenterSettingsAPIView, ImageUploadView
 router = DefaultRouter()
 router.register("certificate", CertificateViewSet, basename="certificate")
 
-urlpatterns = router.urls
-
 urlpatterns = [
     path('', include(router.urls)),
     path("api/settings/", CenterSettingsAPIView.as_view()),
