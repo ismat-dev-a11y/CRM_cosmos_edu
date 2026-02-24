@@ -207,35 +207,35 @@ MEDIA_URL = "/media/"
 MEDIA_ROOT = BASE_DIR / "media/"
 
 # logging
-#
-# LOG_DIR = BASE_DIR / "logs"
-# LOG_DIR.mkdir(exist_ok=True)
 
-# LOGGING = {
-#     "version": 1,
-#     "disable_existing_loggers": False,
-#     "formatters": {
-#         "verbose": {
-#             "format": "{asctime} {levelname} {name} {message}",
-#             "style": "{",
-#         },
-#     },
-#     "handlers": {
-#         "file": {
-#             "level": "INFO",  # DEBUG emas, balki INFO yoki WARNING
-#             "class": "logging.FileHandler",
-#             "filename": str(LOG_DIR / "debug.log"),
-#             "formatter": "verbose",
-#         },
-#     },
-#     "loggers": {
-#         "django": {
-#             "handlers": ["file"],
-#             "level": "INFO",  # DEBUG emas, balki INFO yoki WARNING
-#             "propagate": False,
-#         },
-#     },
-# }
+LOG_DIR = BASE_DIR / "logs"
+LOG_DIR.mkdir(exist_ok=True)
+
+LOGGING = {
+    "version": 1,
+    "disable_existing_loggers": False,
+    "formatters": {
+        "verbose": {
+            "format": "{asctime} {levelname} {name} {message}",
+            "style": "{",
+        },
+    },
+    "handlers": {
+        "file": {
+            "level": "INFO",  # DEBUG emas, balki INFO yoki WARNING
+            "class": "logging.FileHandler",
+            "filename": str(LOG_DIR / "debug.log"),
+            "formatter": "verbose",
+        },
+    },
+    "loggers": {
+        "django": {
+            "handlers": ["file"],
+            "level": "INFO",  # DEBUG emas, balki INFO yoki WARNING
+            "propagate": False,
+        },
+    },
+}
 
 
 FRONTEND_PASSWORD_RESET_URL = "http://localhost:3000/reset-password"
