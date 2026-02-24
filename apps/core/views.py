@@ -1,16 +1,15 @@
 import requests
+import base64
 from rest_framework.viewsets import ModelViewSet
 from rest_framework.parsers import MultiPartParser, FormParser
 from rest_framework.permissions import AllowAny, IsAuthenticated
 from rest_framework.response import Response
-from rest_framework import generics
 from apps.users.permissions import IsAdmin
 from drf_spectacular.utils import extend_schema, extend_schema_view
 from drf_spectacular.utils import extend_schema
 from .models import Certificate, CenterSettings
 from .serializers import CertificateSerializer, CenterSettingsSerializer
 from apps.core.pagination import PageNumberPagination
-import base64
 
 
 @extend_schema_view(
