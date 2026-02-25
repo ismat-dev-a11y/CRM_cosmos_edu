@@ -46,10 +46,14 @@ class EnrollmenStudentSerializer(serializers.ModelSerializer):
 
 
 class AttendanceSerializer(serializers.ModelSerializer):
+    student_name = serializers.ReadOnlyField(source="student.get_full_name")
 
     class Meta:
         model = Attendance
         fields = "__all__"
+
+    def get_student_name(self, obj):
+        return obj.student.get_full_name()
 
     def create(self, validated_data):
         obj, created = Attendance.objects.update_or_create(
