@@ -35,13 +35,9 @@ class LoginAPIView(generics.GenericAPIView):
         return Response({
             "message": "Login successful",
             "access": data["access"],
-            "refresh": data["refresh"],
-            "user_id": user.id,
-            "role": user.role,
-            "phone_number": user.phone_number,
         }, status=status.HTTP_200_OK)
 
 class UserList(generics.ListAPIView):
     queryset = UserProfile.objects.all()
     serializer_class = UserListSerializers
-    permission_classes = [IsAuthenticated, IsAdminUser] 
+    permission_classes = [IsAuthenticated, IsAdminUser]
