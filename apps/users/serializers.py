@@ -42,7 +42,7 @@ class LoginSerializer(serializers.Serializer):
         password = attrs.get("password")
 
         user = authenticate(
-            username=phone,   # USERNAME_FIELD = phone_number
+            username=phone,  
             password=password
         )
 

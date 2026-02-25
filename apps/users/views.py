@@ -30,7 +30,6 @@ class LoginAPIView(generics.GenericAPIView):
         serializer.is_valid(raise_exception=True)
 
         data = serializer.validated_data
-        user = data["user"]
 
         return Response({
             "message": "Login successful",
