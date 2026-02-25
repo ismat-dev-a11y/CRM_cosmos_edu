@@ -26,11 +26,17 @@ class SoftDeleteModel(TimeStampedModel):
     class Meta:
         abstract = True
 
-    def delete(self):
+    # ✅ Django admin kutgan signature
+    def delete(self, using=None, keep_parents=False):
         self.is_deleted = True
         self.deleted_at = timezone.now()
-        self.save()
+        self.save(using=using)
 
+    # ✅ Qayta tiklash uchun
+    def restore(self):
+        self.is_deleted = False
+        self.deleted_at = None
+        self.save()
 
 class AuditLog(TimeStampedModel):
     class Action(models.TextChoices):

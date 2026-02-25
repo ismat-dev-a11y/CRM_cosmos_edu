@@ -5,6 +5,7 @@ from apps.core.pagination import PageNumberPagination
 from rest_framework.parsers import MultiPartParser, FormParser
 from apps.users.permissions import IsAdmin
 from drf_spectacular.utils import extend_schema
+from apps.core.pagination import StandardResultsSetPagination
 
 # glo
 from rest_framework import generics
@@ -19,6 +20,7 @@ class CourseListView(generics.ListAPIView):
     queryset = Course.objects.all()
     serializer_class = CourseReadSerializers
     permission_classes = [AllowAny]
+    pagination_class = StandardResultsSetPagination
 
 
 @extend_schema(tags=["Courses"])

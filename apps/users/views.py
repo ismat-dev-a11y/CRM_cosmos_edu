@@ -1,57 +1,42 @@
-from rest_framework import status, generics, permissions
-from rest_framework.permissions import IsAuthenticated, AllowAny
+from rest_framework import generics, status
 from rest_framework.response import Response
+from rest_framework.permissions import AllowAny
+from rest_framework.authtoken.models import Token
+from rest_framework import serializers
+from django.contrib.auth import authenticate
 from rest_framework_simplejwt.tokens import RefreshToken
-from rest_framework.views import APIView
 from drf_spectacular.utils import extend_schema
-from .serializers import (
-    UserProfileSerializers,
-    UserVerifyLoginSerializer,
-    UserUpdateSerializsrs,
-)
 from .models import UserProfile
+from .serializers import RegisterSerializer, LoginSerializer
+from .permissions import IsBossUser
 
 
-@extend_schema(tags=["Auth"])
-class UserVerifyLogin(generics.CreateAPIView):
+# ================= REGISTER API =================
+@extend_schema(tags=["Authentication"])
+class RegisterAPIView(generics.CreateAPIView):
+    queryset = UserProfile.objects.all()
+    serializer_class = RegisterSerializer
+    permission_classes = [IsBossUser]
+
+# ================= LOGIN API =================
+
+@extend_schema(tags=["Authentication"])
+class LoginAPIView(generics.GenericAPIView):
+    serializer_class = LoginSerializer
     permission_classes = [AllowAny]
-    serializer_class = UserProfileSerializers
 
     def post(self, request):
-        phone_number = request.data.get("phone_number")
-        password = request.data.get("password")
+        serializer = self.get_serializer(data=request.data)
+        serializer.is_valid(raise_exception=True)
 
-        if not phone_number or not password:
-            return Response(
-                {"detail": "Phone number and password are required"},
-                status=status.HTTP_400_BAD_REQUEST,
-            )
-        try:
-            user = UserProfile.objects.get(phone_number=phone_number)
-            if not user.check_password(password):
-                return Response({"detail": "Invalid creditianals"}, status=401)
+        data = serializer.validated_data
+        user = data["user"]
 
-        except UserProfile.DoesNotExist:
-            return Response({"detail": "Invalid creditianals"}, status=401)
-
-        if not user.is_active:
-            return Response({"detail": "User is inactive"}, status=403)
-
-        refresh = RefreshToken.for_user(user)
-
-        return Response(
-            {
-                "refresh": str(refresh),
-                "access": str(refresh.access_token),
-                "role": user.role,
-                "user_id": user.id,
-            }
-        )
-
-
-class UserProfileUpdateView(generics.RetrieveUpdateAPIView):
-    serializer_class = UserUpdateSerializsrs
-    permission_classes = [IsAuthenticated]
-
-    def get_object(self):
-        return self.request.user
+        return Response({
+            "message": "Login successful",
+            "access": data["access"],
+            "refresh": data["refresh"],
+            "user_id": user.id,
+            "role": user.role,
+            "phone_number": user.phone_number,
+        }, status=status.HTTP_200_OK)

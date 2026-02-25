@@ -14,7 +14,7 @@ load_dotenv()
 
 SECRET_KEY = os.getenv("SECRET_KEY")
 
-DEBUG = os.getenv("DEBUG") == "True"
+DEBUG = True
 
 ALLOWED_HOSTS = [
     "16.16.92.30",
@@ -122,6 +122,7 @@ DATABASES = {
         'PORT': os.getenv('DB_PORT'),
     }
 }
+
 AUTH_PASSWORD_VALIDATORS = [
     {
         "NAME": "django.contrib.auth.password_validation.UserAttributeSimilarityValidator",

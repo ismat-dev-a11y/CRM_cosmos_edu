@@ -6,10 +6,14 @@ class IsAuthenticatedAndActive(BasePermission):
         return request.user and request.user.is_authenticated and request.user.is_active
 
 
-class IsBoss(BasePermission):
-    def has_permission(self, request, view):
-        return request.user.role == "BOSS"
 
+
+class IsBossUser(BasePermission):
+    def has_permission(self, request, view):
+        return (
+            request.user.is_authenticated
+            and request.user.is_boss
+        )
 
 class IsAdmin(BasePermission):
     def has_permission(self, request, view):

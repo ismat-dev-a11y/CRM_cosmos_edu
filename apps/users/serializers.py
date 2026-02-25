@@ -1,31 +1,58 @@
 from rest_framework import serializers
+from django.contrib.auth import authenticate
 from .models import UserProfile
-from rest_framework_simplejwt.serializers import TokenObtainPairSerializer
 
 
-class UserProfileSerializers(serializers.ModelSerializer):
-    password = serializers.CharField(write_only=True, min_length=6)
+# ================= REGISTER =================
+class RegisterSerializer(serializers.ModelSerializer):
+    password = serializers.CharField(write_only=True)
 
     class Meta:
         model = UserProfile
-        fields = ["username", "phone_number", "email", "role", "parent", "password"]
-        read_only_fields = ["id", "role"]
+        fields = [
+            "phone_number",
+            "password",
+            "email",
+            "username",   # fullname
+            "role",
+        ]
 
     def create(self, validated_data):
         password = validated_data.pop("password")
-        user = UserProfile.objects.create_user(password=password, **validated_data)
+
+        user = UserProfile(**validated_data)
+        user.set_password(password)
+        user.save()
+
         return user
 
 
-class UserVerifyLoginSerializer(TokenObtainPairSerializer):
+# ================= LOGIN =================
+from rest_framework import serializers
+from django.contrib.auth import authenticate
+from rest_framework_simplejwt.tokens import RefreshToken
+
+
+class LoginSerializer(serializers.Serializer):
     phone_number = serializers.CharField()
+    password = serializers.CharField(write_only=True)
 
     def validate(self, attrs):
-        attrs["username"] = attrs.get("phone_number")
-        return super().validate(attrs)
+        phone = attrs.get("phone_number")
+        password = attrs.get("password")
 
+        user = authenticate(
+            username=phone,   # USERNAME_FIELD = phone_number
+            password=password
+        )
 
-class UserUpdateSerializsrs(serializers.ModelSerializer):
-    class Meta:
-        model = UserProfile
-        fields = ["username", "email", "phone_number"]
+        if not user:
+            raise serializers.ValidationError("Phone yoki password xato")
+
+        refresh = RefreshToken.for_user(user)
+
+        return {
+            "user": user,
+            "refresh": str(refresh),
+            "access": str(refresh.access_token),
+        }

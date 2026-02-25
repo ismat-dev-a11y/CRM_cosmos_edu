@@ -2,7 +2,7 @@ import requests
 import base64
 from rest_framework.viewsets import ModelViewSet
 from rest_framework.parsers import MultiPartParser, FormParser
-from rest_framework.permissions import AllowAny, IsAuthenticated
+from rest_framework.permissions import AllowAny, IsAuthenticated, IsAdminUser
 from rest_framework.response import Response
 from apps.users.permissions import IsAdmin
 from drf_spectacular.utils import extend_schema, extend_schema_view
@@ -10,7 +10,12 @@ from drf_spectacular.utils import extend_schema
 from .models import Certificate, CenterSettings
 from .serializers import CertificateSerializer, CenterSettingsSerializer
 from apps.core.pagination import PageNumberPagination
-
+from rest_framework.generics import (
+    RetrieveAPIView,
+    CreateAPIView,
+    UpdateAPIView,
+    DestroyAPIView,
+)
 
 @extend_schema_view(
     list=extend_schema(tags=["Certificate"]),
@@ -38,44 +43,86 @@ class CertificateViewSet(ModelViewSet):
 from rest_framework.views import APIView
 
 
-@extend_schema(tags=["Settings"])
-class CenterSettingsAPIView(APIView):
+from rest_framework.views import APIView
+from rest_framework.response import Response
+from rest_framework import status
+from rest_framework.permissions import IsAdminUser
 
-    parser_classes = (MultiPartParser, FormParser)
+from .models import CenterSettings
+from .serializers import CenterSettingsSerializer
 
-    def get_permissions(self):
-        # Landing page ham ishlatadi
-        if self.request.method == "GET":
-            return []
-        return [IsAdmin()]
 
-    @extend_schema(
-        responses=CenterSettingsSerializer,
-        description="Markaz sozlamalarini olish (Landing page uchun)"
-    )
-    def get(self, request):
-        settings_obj = CenterSettings.get_settings()
-        serializer = CenterSettingsSerializer(settings_obj)
-        return Response(serializer.data)
+from drf_yasg.utils import swagger_auto_schema
+from drf_yasg import openapi
+from rest_framework.views import APIView
+from rest_framework.response import Response
+from rest_framework import status
+from rest_framework.permissions import IsAdminUser
 
-    @extend_schema(
-        request=CenterSettingsSerializer,
-        responses=CenterSettingsSerializer,
-        description="Markaz sozlamalarini yangilash (Admin)"
-    )
-    def patch(self, request):
-        settings_obj = CenterSettings.get_settings()
+from .models import CenterSettings
+from .serializers import CenterSettingsSerializer
 
-        serializer = CenterSettingsSerializer(
-            settings_obj,
-            data=request.data,
-            partial=True
-        )
+def get_singleton():
+    return CenterSettings.get_settings()
 
+# ✅ GET /settings/
+class CenterSettingsRetrieveView(RetrieveAPIView):
+    permission_classes = [IsAdminUser]
+    serializer_class = CenterSettingsSerializer
+
+    def get_object(self):
+        return get_singleton()
+
+
+# ✅ POST /settings/create/
+class CenterSettingsCreateView(CreateAPIView):
+    permission_classes = [IsAdminUser]
+    serializer_class = CenterSettingsSerializer
+
+    def create(self, request, *args, **kwargs):
+        instance = get_singleton()
+        serializer = self.get_serializer(instance, data=request.data)
         serializer.is_valid(raise_exception=True)
         serializer.save()
+        return Response(serializer.data, status=status.HTTP_201_CREATED)
 
-        return Response(serializer.data, status=200)
+
+# ✅ PUT /settings/update/
+class CenterSettingsUpdateView(UpdateAPIView):
+    permission_classes = [IsAdminUser]
+    serializer_class = CenterSettingsSerializer
+    http_method_names = ['put']
+
+    def get_object(self):
+        return get_singleton()
+
+
+# ✅ PATCH /settings/partial-update/
+class CenterSettingsPartialUpdateView(UpdateAPIView):
+    permission_classes = [IsAdminUser]
+    serializer_class = CenterSettingsSerializer
+    http_method_names = ['patch']
+
+    def get_object(self):
+        return get_singleton()
+
+    def update(self, request, *args, **kwargs):
+        kwargs['partial'] = True
+        return super().update(request, *args, **kwargs)
+
+
+# ✅ DELETE /settings/delete/
+class CenterSettingsDestroyView(DestroyAPIView):
+    permission_classes = [IsAdminUser]
+    serializer_class = CenterSettingsSerializer
+
+    def get_object(self):
+        return get_singleton()
+
+    def destroy(self, request, *args, **kwargs):
+        instance = self.get_object()
+        instance.delete()
+        return Response({"detail": "Sozlamalar o'chirildi."}, status=status.HTTP_204_NO_CONTENT)
 
 from rest_framework.views import APIView
 from rest_framework.response import Response
