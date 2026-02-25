@@ -53,5 +53,11 @@ class LoginSerializer(serializers.Serializer):
 
         return {
             "user": user,
+            'refresh': str(refresh),
             "access": str(refresh.access_token),
         }
+
+class UserListSerializers(serializers.ModelSerializer):
+    class Meta:
+        model = UserProfile
+        fields = '__all__'

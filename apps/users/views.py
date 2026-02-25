@@ -1,13 +1,13 @@
 from rest_framework import generics, status
 from rest_framework.response import Response
-from rest_framework.permissions import AllowAny
+from rest_framework.permissions import AllowAny, IsAuthenticated, IsAdminUser
 from rest_framework.authtoken.models import Token
 from rest_framework import serializers
 from django.contrib.auth import authenticate
 from rest_framework_simplejwt.tokens import RefreshToken
 from drf_spectacular.utils import extend_schema
 from .models import UserProfile
-from .serializers import RegisterSerializer, LoginSerializer
+from .serializers import RegisterSerializer, LoginSerializer, UserListSerializers
 from .permissions import IsBossUser
 
 
@@ -40,3 +40,8 @@ class LoginAPIView(generics.GenericAPIView):
             "role": user.role,
             "phone_number": user.phone_number,
         }, status=status.HTTP_200_OK)
+
+class UserList(generics.ListAPIView):
+    queryset = UserProfile.objects.all()
+    serializer_class = UserListSerializers
+    permission_classes = [IsAuthenticated, IsAdminUser]
