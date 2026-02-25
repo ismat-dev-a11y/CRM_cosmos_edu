@@ -12,7 +12,7 @@ urlpatterns = [
     path("enrollment", EnrollmentListAPIView.as_view()),
     path("enrollment/<int:pk>", EnrollmentUpdateDeleteAPIView.as_view()),
     path("attendence", AttendenceAPIView.as_view()),
-    path("attendence", AttendenceListAPIView.as_view()),
+    path("attendence-list", AttendenceListAPIView.as_view()),
     path("attendence/<int:pk>", updateattendence),
     path("", include(router.urls)),
     # path("" ,include(router.urls)),
