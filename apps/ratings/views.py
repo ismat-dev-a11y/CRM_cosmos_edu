@@ -1,5 +1,6 @@
 # views.py
 from django.db.models import Avg, Count
+from apps.tasks.permissions import IsAdminOrIsMentor
 
 from rest_framework.response import Response
 from rest_framework.generics import (
@@ -21,7 +22,7 @@ from apps.users.permissions import IsAuthenticatedAndActive, IsMentor, IsStudent
 class RatingCreateView(CreateAPIView):
     queryset = Rating.objects.all()
     serializer_class = RatingSerializer
-    permission_classes = [IsAuthenticatedAndActive, IsMentor]  # ✅ Mentor
+    permission_classes = [IsAuthenticatedAndActive, IsAdminOrIsMentor]  # ✅ Mentor
 
     def perform_create(self, serializer):
         serializer.save(mentor=self.request.user)  # ✅ mentor avtomatik saqlanadi
@@ -48,7 +49,7 @@ class RatingRetrieveView(RetrieveAPIView):
 @extend_schema(tags=["Ratings"], summary="Bahoni yangilash (Mentor)")
 class RatingUpdateView(UpdateAPIView):
     serializer_class = RatingUpdateSerializer
-    permission_classes = [IsAuthenticatedAndActive, IsMentor]  # ✅ Mentor
+    permission_classes = [IsAuthenticatedAndActive, IsAdminOrIsMentor]  # ✅ Mentor
     http_method_names = ["patch"]
 
     def get_queryset(self):
@@ -91,7 +92,7 @@ class MyRatingsView(ListAPIView):
 @extend_schema(tags=["Ratings"], summary="Men bergan baholar (Mentor)")
 class MentorGivenRatingsView(ListAPIView):
     serializer_class = RatingSerializer
-    permission_classes = [IsAuthenticatedAndActive, IsMentor]
+    permission_classes = [IsAuthenticatedAndActive, IsAdminOrIsMentor]
 
     def get_queryset(self):
         return Rating.objects.filter(
