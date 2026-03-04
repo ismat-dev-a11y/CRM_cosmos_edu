@@ -5,6 +5,8 @@ urlpatterns = [
 
     # TASKS
     path("tasks/", DailyTaskListCreateView.as_view()),
+    path("tasks/<int:pk>", DailyRetrieveUpdateDestroyAPIView.as_view()),
+
 
     # HOMEWORK
     path("homework/submit/", HomeworkSubmitView.as_view()),

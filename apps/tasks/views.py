@@ -26,6 +26,18 @@ class DailyTaskListCreateView(generics.ListCreateAPIView):
     def perform_create(self, serializer):
         serializer.save(assigned_by=self.request.user)
 
+@extend_schema(tags=['Tasks'])
+class DailyRetrieveUpdateDestroyAPIView(generics.RetrieveUpdateDestroyAPIView):
+    serializer_class = DailyTaskSerializer
+    permission_classes = [permissions.IsAuthenticated, IsAdminOrIsMentor]
+
+    def get_queryset(self):
+        user = self.request.user
+
+        if user.is_superuser:
+            return DailyTask.objects.all()
+        return DailyTask.objects.filter(assigned_to=user)
+    
 @extend_schema(tags=["Homework"])
 class HomeworkSubmitView(generics.CreateAPIView):
     serializer_class = HomeworkSubmissionSerializer
