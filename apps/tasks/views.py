@@ -8,10 +8,12 @@ from rest_framework.decorators import api_view, permission_classes
 from rest_framework.response import Response
 from apps.users.permissions import IsMentor
 
+from .permissions import IsAdminOrIsMentor
+
 @extend_schema(tags=["Tasks"])
 class DailyTaskListCreateView(generics.ListCreateAPIView):
     serializer_class = DailyTaskSerializer
-    permission_classes = [permissions.IsAuthenticated, IsMentor]
+    permission_classes = [permissions.IsAuthenticated, IsAdminOrIsMentor]
 
     def get_queryset(self):
         user = self.request.user
@@ -45,7 +47,7 @@ class HomeworkSubmitView(generics.CreateAPIView):
 class HomeworkReviewCreateView(generics.CreateAPIView):
     queryset = HomeworkReview.objects.all()
     serializer_class = HomeworkReviewSerializer
-    permission_classes = [permissions.IsAuthenticated, IsMentor]
+    permission_classes = [permissions.IsAuthenticated, IsAdminOrIsMentor]
 
     def perform_create(self, serializer):
         serializer.save(mentor=self.request.user)

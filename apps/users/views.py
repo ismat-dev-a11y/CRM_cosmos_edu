@@ -40,3 +40,4 @@ class UserList(generics.ListAPIView):
     queryset = UserProfile.objects.all()
     serializer_class = UserListSerializers
     permission_classes = [IsAuthenticated, IsAdminUser]
+
