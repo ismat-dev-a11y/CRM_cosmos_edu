@@ -20,10 +20,11 @@ urlpatterns = [
     path("", include("apps.groups.urls")),
     path("", include("apps.core.urls")),
     path("", include("apps.tasks.urls")),
+    path("", include("apps.storedfiles.urls")),
 
     # swagger
     path("api/schema/", SpectacularAPIView.as_view(), name="schema"),
-    path("api/docs/", SpectacularSwaggerView.as_view(url_name="schema"), name="swagger-ui"),
+    path("swagger/", SpectacularSwaggerView.as_view(url_name="schema"), name="swagger-ui"),
     path("api/redoc/", SpectacularRedocView.as_view(url_name="schema"), name="redoc"),
 ]
 

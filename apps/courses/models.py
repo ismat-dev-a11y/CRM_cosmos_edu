@@ -1,5 +1,6 @@
 from django.db import models
 from apps.users.models import UserProfile
+from apps.storedfiles.models import StoredFile
 
 
 class Course(models.Model):
@@ -9,25 +10,30 @@ class Course(models.Model):
         ("advanced", "Advanced"),
     ]
 
-    title = models.CharField(max_length=200)
-    level = models.CharField(
-        max_length=20, choices=COURSE_LEVEL_CHOICES, default="beginner"
-    )
-
-    description = models.TextField(blank=True)
-    max_students = models.PositiveIntegerField(default=20)
-    is_active = models.BooleanField(default=True)
-
-    price = models.DecimalField(max_digits=10, decimal_places=2, default=0)
-
+    title          = models.CharField(max_length=200)
+    level          = models.CharField(max_length=20, choices=COURSE_LEVEL_CHOICES, default="beginner")
+    description    = models.TextField(blank=True)
+    max_students   = models.PositiveIntegerField(default=20)
+    is_active      = models.BooleanField(default=True)
+    price          = models.DecimalField(max_digits=10, decimal_places=2, default=0)
     duration_weeks = models.PositiveIntegerField(default=12)
 
-    image = models.ImageField(upload_to="courses/", null=True, blank=True)
+    image = models.ForeignKey(          # ← URLField emas, FK!
+        StoredFile,
+        on_delete=models.SET_NULL,
+        null=True,
+        blank=True,
+        related_name="course_images",
+    )
 
     created_at = models.DateTimeField(auto_now_add=True)
 
     def __str__(self):
         return self.title
+
+    @property
+    def image_url(self):                # ← URL ni property orqali olish
+        return self.image.url if self.image else None
 
     @property
     def current_students_count(self):

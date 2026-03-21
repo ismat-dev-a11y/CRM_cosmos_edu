@@ -1,17 +1,8 @@
-from django.urls import path
-from .views import *
+from rest_framework.routers import DefaultRouter
+from apps.tasks.views import HomeworkTaskViewSet, HomeworkSubmissionViewSet
 
-urlpatterns = [
+router = DefaultRouter()
+router.register(r"homework/tasks", HomeworkTaskViewSet, basename="homework-tasks")
+router.register(r"homework/submissions", HomeworkSubmissionViewSet, basename="homework-submissions")
 
-    # TASKS
-    path("tasks/", DailyTaskListCreateView.as_view()),
-    path("tasks/<int:pk>", DailyRetrieveUpdateDestroyAPIView.as_view()),
-
-
-    # HOMEWORK
-    path("homework/submit/", HomeworkSubmitView.as_view()),
-    path("homework/my/", MySubmissionsView.as_view()),
-
-    # REVIEW
-    path("homework/review/", HomeworkReviewCreateView.as_view()),
-]
+urlpatterns = router.urls

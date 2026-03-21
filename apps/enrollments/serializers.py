@@ -46,13 +46,13 @@ class EnrollmenStudentSerializer(serializers.ModelSerializer):
 
 
 class AttendanceSerializer(serializers.ModelSerializer):
-    student_name = serializers.ReadOnlyField(source="student.get_full_name")
+    student_name = serializers.SerializerMethodField()
 
     class Meta:
         model = Attendance
         fields = "__all__"
 
-    def get_student_name(self, obj):
+    def get_student_name(self, obj) -> str:
         return obj.student.get_full_name()
 
     def create(self, validated_data):
@@ -63,8 +63,10 @@ class AttendanceSerializer(serializers.ModelSerializer):
         )
         return obj
 
+
 class AssignmentSerializer(serializers.ModelSerializer):
     lesson_title = serializers.ReadOnlyField(source="lesson.title")
+    max_score = serializers.IntegerField(max_value=1000)
 
     class Meta:
         model = Assignment
@@ -80,20 +82,9 @@ class AssignmentSerializer(serializers.ModelSerializer):
         ]
         read_only_fields = ["created_at"]
 
-    def validate_due_data(self, value):
+    def validate_due_date(self, value):
         from django.utils import timezone
 
         if value < timezone.now():
-            raise serializers.ValidationError("Due data utmishda bulishi mumkin emas")
-        return value
-
-    def validate_max_score(self, value):
-        if value <= 0:
-            raise serializers.ValidationError(
-                "Maksimal ball 0 dan katta bo'lishi kerak"
-            )
-        if value > 1000:
-            raise serializers.ValidationError(
-                "Maksimal ball juda katta (1000 dan oshmasin)"
-            )
+            raise serializers.ValidationError("Due date utmishda bo'lishi mumkin emas")
         return value

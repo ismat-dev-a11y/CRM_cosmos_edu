@@ -50,3 +50,10 @@ class CanBeStudent(BasePermission):
             and request.user.role == "STUDENT"
             and request.method in ("GET", "HEAD", "OPTIONS")
         )
+
+class IsTutorOrSuperAdmin(BasePermission):
+    def has_permission(self, request, view):
+        return request.user.is_authenticated and request.user.role in [
+            "BOSS",
+            "MENTOR",
+        ]

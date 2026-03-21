@@ -2,6 +2,9 @@ import os
 from pathlib import Path
 from datetime import timedelta
 from django.conf import settings
+import dj_database_url
+from decouple import config
+
 
 BASE_DIR = Path(__file__).resolve().parent.parent
 from dotenv import load_dotenv
@@ -67,6 +70,7 @@ LOCAL_APPS = [
     "apps.ratings",
     "apps.tasks",
     "apps.users",
+    "apps.storedfiles"
     # "apps.logs",
 ]
 
@@ -242,4 +246,21 @@ LOGGING = {
 FRONTEND_PASSWORD_RESET_URL = "http://localhost:3000/reset-password"
 
 
-# STATICFILES_STORAGE = "whitenoise.storage.CompressedManifestStaticFilesStorage"
+# minio
+
+MINIO_ENDPOINT    = config("MINIO_ENDPOINT")
+MINIO_ACCESS_KEY  = config("MINIO_ACCESS_KEY")
+MINIO_SECRET_KEY  = config("MINIO_SECRET_KEY")
+MINIO_BUCKET_NAME = config("MINIO_BUCKET_NAME")
+MINIO_USE_HTTPS   = config("MINIO_USE_HTTPS", default=False, cast=bool)
+
+DEFAULT_FILE_STORAGE    = "storages.backends.s3boto3.S3Boto3Storage"
+AWS_ACCESS_KEY_ID       = MINIO_ACCESS_KEY
+AWS_SECRET_ACCESS_KEY   = MINIO_SECRET_KEY
+AWS_STORAGE_BUCKET_NAME = MINIO_BUCKET_NAME
+AWS_S3_ENDPOINT_URL     = f"http://{MINIO_ENDPOINT}"
+AWS_S3_USE_SSL          = MINIO_USE_HTTPS
+AWS_DEFAULT_ACL         = "public-read"
+AWS_S3_FILE_OVERWRITE   = False
+
+MEDIA_URL = f"http://{MINIO_ENDPOINT}/{MINIO_BUCKET_NAME}/"

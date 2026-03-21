@@ -1,63 +1,47 @@
 from django.db import models
-from django.contrib.auth import get_user_model
-from apps.main.models import TimeStampedModel
+from django.conf import settings
+from apps.groups.models import Group
+from apps.users.models import UserProfile
+from apps.storedfiles.models import StoredFile
 
-User = get_user_model()
 
-
-class DailyTask(TimeStampedModel):
-    class TaskType(models.TextChoices):
-        HOMEWORK = "homework", "Homework"
-        LESSON = "lesson", "Lesson"
-
+class HomeworkTask(models.Model):
+    # homework_tasks: group_id, title, deadline_at, created_by
+    group = models.ForeignKey(Group, on_delete=models.CASCADE, related_name="homework_tasks")
     title = models.CharField(max_length=255)
-    description = models.TextField(blank=True, null=True)
-    task_type = models.CharField(max_length=20, choices=TaskType.choices)
-    assigned_to = models.ForeignKey(
-        User, on_delete=models.CASCADE, related_name="tasks"
+    deadline_at = models.DateTimeField(blank=True, null=True)
+    file_url = models.URLField(max_length=500)
+
+    created_by = models.ForeignKey(
+        settings.AUTH_USER_MODEL,
+        on_delete=models.PROTECT,
+        related_name="created_homework_tasks",
     )
-    assigned_by = models.ForeignKey(
-        User, on_delete=models.SET_NULL, null=True, related_name="created_tasks"
-    )
-    due_date = models.DateField()
-    is_completed = models.BooleanField(default=False)
+
+    created_at = models.DateTimeField(auto_now_add=True)
 
     def __str__(self):
-        return f"{self.title} ({self.task_type})"
+        return f"{self.group} - {self.title}"
 
 
-class HomeworkSubmission(TimeStampedModel):
-    task = models.ForeignKey(
-        DailyTask, on_delete=models.CASCADE, related_name="submissions"
-    )
-    student = models.ForeignKey(
-        User, on_delete=models.CASCADE, related_name="homework_submissions"
-    )
-    text_answer = models.TextField(blank=True, null=True)
+class HomeworkSubmission(models.Model):
+    # homework_submissions: homework_task_id, student_id, status, submitted_at
+    class Status(models.TextChoices):
+        NOT_SUBMITTED = "not_submitted", "Not submitted"
+        SUBMITTED = "submitted", "Submitted"
+        DONE = "done", "Done"
+        NEEDS_REVISION = "needs_revision", "Needs revision"
 
-    def __str__(self):
-        return f"{self.student} → {self.task.title}"
+    homework_task = models.ForeignKey(HomeworkTask, on_delete=models.CASCADE, related_name="submissions")
+    student = models.ForeignKey(UserProfile, on_delete=models.CASCADE, related_name="homework_submissions")
+    status = models.CharField(max_length=32, choices=Status.choices, default=Status.SUBMITTED)
+    submitted_at = models.DateTimeField(auto_now_add=True)
 
+    # ERD da file ko‘rsatilmagan, lekin amalda kerak bo‘ladi.
+    file_url = models.URLField(max_length=500)
 
-class HomeworkImage(models.Model):
-    submission = models.ForeignKey(
-        HomeworkSubmission, on_delete=models.CASCADE, related_name="images"
-    )
-    image = models.ImageField()
-
-    def __str__(self):
-        return self.submission
-
-
-class HomeworkReview(TimeStampedModel):
-    submission = models.OneToOneField(
-        HomeworkSubmission, on_delete=models.CASCADE, related_name="review"
-    )
-    mentor = models.ForeignKey(
-        User, on_delete=models.CASCADE, related_name="homework_reviews"
-    )
-    is_approved = models.BooleanField(default=False)
-    comment = models.TextField(blank=True, null=True)
+    class Meta:
+        unique_together = ("homework_task", "student")
 
     def __str__(self):
-        return f"Review by {self.mentor}"
+        return f"{self.student} -> {self.homework_task}"

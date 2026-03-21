@@ -1,4 +1,5 @@
 import uuid
+from decimal import Decimal  
 from django.db import models
 from django.core.validators import MinValueValidator
 from django.utils import timezone
@@ -25,18 +26,17 @@ class Payment(TimeStampedModel):
         UserProfile, on_delete=models.PROTECT, related_name="payments"
     )
     created_by = models.ForeignKey(
-    UserProfile,
-    on_delete=models.SET_NULL,
-    null=True,
-    blank=True,
-    related_name="created_payments"
-)
-
+        UserProfile,
+        on_delete=models.SET_NULL,
+        null=True,
+        blank=True,
+        related_name="created_payments"
+    )
 
     course = models.ForeignKey(Course, on_delete=models.SET_NULL, null=True, blank=True)
 
     amount = models.DecimalField(
-        max_digits=10, decimal_places=2, validators=[MinValueValidator(0.01)]
+        max_digits=10, decimal_places=2, validators=[MinValueValidator(Decimal("0.01"))]  # ✅
     )
 
     provider = models.CharField(max_length=20, choices=Provider.choices)
@@ -54,7 +54,6 @@ class Payment(TimeStampedModel):
     note = models.TextField(blank=True)
 
     class Meta:
-        # ordering = ['-created_at']
         verbose_name = "Payment"
         verbose_name_plural = "Payments"
 

@@ -67,6 +67,7 @@ class Group(SoftDeleteModel):
     students = models.ManyToManyField(
         UserProfile, through=GroupStudent, related_name="student_groups", blank=True
     )
+    is_active = models.BooleanField(default=False)
 
     lesson_days = models.CharField(
         max_length=10, choices=LessonDays.choices, default=LessonDays.ODD

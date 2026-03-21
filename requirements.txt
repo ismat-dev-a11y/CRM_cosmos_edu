@@ -82,3 +82,4 @@ watchfiles==1.1.1
 websockets==15.0.1
 whitenoise==6.6.0
 zope.interface==8.2
+boto3

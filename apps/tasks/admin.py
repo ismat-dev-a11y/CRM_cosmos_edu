@@ -1,8 +1,12 @@
 from django.contrib import admin
-from .models import DailyTask
+from .models import HomeworkSubmission, HomeworkTask
 from unfold.admin import ModelAdmin
 
 
-@admin.register(DailyTask)
-class DailyTaskAdmin(ModelAdmin):
-    list_display = ["title", "due_date"]
+@admin.register(HomeworkTask)
+class HomeworkTaskAdmin(ModelAdmin):
+    list_display = ["group", "title"]
+
+@admin.register(HomeworkSubmission)
+class HomeworkSubmissionAdmin(ModelAdmin):
+    list_display=['homework_task', 'student']
