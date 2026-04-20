@@ -1,0 +1,148 @@
+2026-03-17 12:42:36,129 INFO django.utils.autoreload /home/ismat-dev/Desktop/Python/CRM_cosmos_edu/apps/users/serializers.py changed, reloading.
+2026-03-17 12:42:36,779 INFO django.utils.autoreload Watching for file changes with StatReloader
+2026-03-17 12:42:40,747 WARNING django.request Bad Request: /staff/register/
+2026-03-17 12:42:40,748 WARNING django.server "POST /staff/register/ HTTP/1.1" 400 63
+2026-03-17 12:42:51,486 INFO django.server "POST /staff/register/ HTTP/1.1" 201 89
+2026-03-17 12:43:13,420 WARNING django.request Bad Request: /login/
+2026-03-17 12:43:13,420 WARNING django.server "POST /login/ HTTP/1.1" 400 44
+2026-03-17 12:43:20,237 INFO django.server "POST /login/ HTTP/1.1" 200 274
+2026-03-17 12:43:29,362 INFO django.server "GET /admin/users/userprofile/ HTTP/1.1" 200 72675
+2026-03-17 12:43:29,413 INFO django.server "GET /admin/jsi18n/ HTTP/1.1" 200 3342
+2026-03-17 12:44:03,331 INFO django.server "POST /rooms/ HTTP/1.1" 201 32
+2026-03-17 12:44:11,957 WARNING django.request Bad Request: /groups/
+2026-03-17 12:44:11,958 WARNING django.server "POST /groups/ HTTP/1.1" 400 56
+2026-03-17 12:44:20,329 INFO django.server "GET /course/ HTTP/1.1" 200 505
+2026-03-17 12:44:35,896 INFO django.server "GET /admin/courses/course/ HTTP/1.1" 200 57632
+2026-03-17 12:44:35,951 INFO django.server "GET /admin/jsi18n/ HTTP/1.1" 200 3342
+2026-03-17 12:44:45,347 INFO django.server "POST /groups/ HTTP/1.1" 201 269
+2026-03-17 12:44:56,804 INFO django.server "GET /group-students/ HTTP/1.1" 200 2
+2026-03-17 12:45:06,540 INFO django.server "GET /groups/ HTTP/1.1" 200 271
+2026-03-17 12:45:17,238 INFO django.server "GET /admin/users/userprofile/ HTTP/1.1" 200 72675
+2026-03-17 12:45:17,275 INFO django.server "GET /admin/jsi18n/ HTTP/1.1" 200 3342
+2026-03-17 12:45:25,195 INFO django.server "POST /group-students/ HTTP/1.1" 201 127
+2026-03-17 12:45:29,615 INFO django.server "GET /group-students/ HTTP/1.1" 200 129
+2026-03-17 12:46:29,529 WARNING django.request Forbidden: /homework/tasks/
+2026-03-17 12:46:29,529 WARNING django.server "POST /homework/tasks/ HTTP/1.1" 403 63
+2026-03-17 12:48:35,490 INFO django.utils.autoreload /home/ismat-dev/Desktop/Python/CRM_cosmos_edu/apps/users/permissions.py changed, reloading.
+2026-03-17 12:48:36,081 INFO django.utils.autoreload Watching for file changes with StatReloader
+2026-03-17 12:48:39,493 INFO django.utils.autoreload /home/ismat-dev/Desktop/Python/CRM_cosmos_edu/apps/users/permissions.py changed, reloading.
+2026-03-17 12:48:40,087 INFO django.utils.autoreload Watching for file changes with StatReloader
+2026-03-17 12:48:41,262 INFO django.server "POST /homework/tasks/ HTTP/1.1" 201 373
+2026-03-17 12:48:56,285 INFO django.server "GET /homework/tasks/ HTTP/1.1" 200 375
+2026-03-17 12:49:58,575 INFO django.server "POST /homework/submissions/ HTTP/1.1" 201 347
+2026-03-17 12:50:59,291 INFO django.server "GET /homework/submissions/ HTTP/1.1" 200 349
+2026-03-17 12:52:44,760 INFO django.server "POST /ratings/ HTTP/1.1" 201 191
+2026-03-17 12:52:57,018 INFO django.server "GET /admin/users/userprofile/25/change/ HTTP/1.1" 200 84594
+2026-03-17 12:52:57,053 INFO django.server "GET /static/admin/js/calendar.js HTTP/1.1" 304 0
+2026-03-17 12:52:57,056 INFO django.server "GET /static/admin/js/admin/DateTimeShortcuts.js HTTP/1.1" 304 0
+2026-03-17 12:52:57,065 INFO django.server "GET /admin/jsi18n/ HTTP/1.1" 200 3342
+2026-03-17 12:53:17,198 INFO django.server "POST /admin/users/userprofile/25/change/ HTTP/1.1" 302 0
+2026-03-17 12:53:17,283 INFO django.server "GET /admin/users/userprofile/ HTTP/1.1" 200 73129
+2026-03-17 12:53:17,315 INFO django.server "GET /admin/jsi18n/ HTTP/1.1" 200 3342
+2026-03-17 12:53:29,371 INFO django.server "GET /ratings/1/ HTTP/1.1" 200 205
+2026-03-17 12:53:36,542 INFO django.server "GET /admin/users/userprofile/26/change/ HTTP/1.1" 200 84607
+2026-03-17 12:53:36,583 INFO django.server "GET /admin/jsi18n/ HTTP/1.1" 200 3342
+2026-03-17 12:53:51,149 INFO django.server "POST /admin/users/userprofile/26/change/ HTTP/1.1" 302 0
+2026-03-17 12:53:51,214 INFO django.server "GET /admin/users/userprofile/ HTTP/1.1" 200 73133
+2026-03-17 12:53:51,251 INFO django.server "GET /admin/jsi18n/ HTTP/1.1" 200 3342
+2026-03-17 12:53:53,568 INFO django.server "GET /ratings/1/ HTTP/1.1" 200 205
+2026-03-17 12:53:55,659 INFO django.server "GET /ratings/1/ HTTP/1.1" 200 205
+2026-03-17 12:54:20,534 INFO django.server "GET /admin/users/userprofile/1/change/ HTTP/1.1" 200 84594
+2026-03-17 12:54:20,581 INFO django.server "GET /admin/jsi18n/ HTTP/1.1" 200 3342
+2026-03-17 12:54:38,226 INFO django.server "POST /admin/users/userprofile/1/change/ HTTP/1.1" 302 0
+2026-03-17 12:54:38,289 INFO django.server "GET /admin/users/userprofile/ HTTP/1.1" 200 73121
+2026-03-17 12:54:38,330 INFO django.server "GET /admin/jsi18n/ HTTP/1.1" 200 3342
+2026-03-17 12:54:40,440 INFO django.server "GET /ratings/1/ HTTP/1.1" 200 224
+2026-03-17 12:55:45,910 INFO django.server "GET /users/ HTTP/1.1" 200 1693
+2026-03-21 15:54:40,769 INFO django.utils.autoreload Watching for file changes with StatReloader
+2026-03-21 15:54:45,917 INFO django.server "GET /admin/ HTTP/1.1" 302 0
+2026-03-21 15:54:45,935 INFO django.server "GET /admin/login/?next=/admin/ HTTP/1.1" 200 11733
+2026-03-21 15:54:45,999 INFO django.server "GET /static/unfold/fonts/inter/styles.css HTTP/1.1" 304 0
+2026-03-21 15:54:45,999 INFO django.server "GET /static/unfold/fonts/material-symbols/styles.css HTTP/1.1" 304 0
+2026-03-21 15:54:46,001 INFO django.server "GET /static/unfold/css/styles.css HTTP/1.1" 200 255002
+2026-03-21 15:54:46,004 INFO django.server "GET /static/unfold/css/simplebar/simplebar.css HTTP/1.1" 304 0
+2026-03-21 15:54:46,004 INFO django.server "GET /static/unfold/js/htmx/htmx.js HTTP/1.1" 200 50918
+2026-03-21 15:54:46,005 INFO django.server "GET /static/unfold/js/chart/chart.js HTTP/1.1" 200 200633
+2026-03-21 15:54:46,013 INFO django.server "GET /static/unfold/js/app.js HTTP/1.1" 200 19428
+2026-03-21 15:54:46,051 INFO django.server "GET /static/unfold/js/simplebar/simplebar.js HTTP/1.1" 200 27176
+2026-03-21 15:54:46,068 INFO django.server "GET /static/unfold/js/alpine/alpine.persist.js HTTP/1.1" 304 0
+2026-03-21 15:54:46,068 INFO django.server "GET /static/unfold/js/alpine/alpine.anchor.js HTTP/1.1" 200 15524
+2026-03-21 15:54:46,099 INFO django.server "GET /static/unfold/js/alpine/alpine.sort.js HTTP/1.1" 200 37891
+2026-03-21 15:54:46,116 INFO django.server "GET /static/unfold/js/alpine/alpine.resize.js HTTP/1.1" 304 0
+2026-03-21 15:54:46,116 INFO django.server "GET /static/unfold/js/alpine/alpine.js HTTP/1.1" 200 44758
+2026-03-21 15:54:46,179 INFO django.server "GET /static/unfold/fonts/inter/Inter-SemiBold.woff2 HTTP/1.1" 200 114812
+2026-03-21 15:54:46,180 INFO django.server "GET /static/unfold/fonts/inter/Inter-Medium.woff2 HTTP/1.1" 200 114348
+2026-03-21 15:54:46,181 INFO django.server "GET /static/unfold/fonts/material-symbols/Material-Symbols-Outlined.woff2 HTTP/1.1" 200 291696
+2026-03-21 15:54:46,227 INFO django.server "GET /static/unfold/fonts/inter/Inter-Regular.woff2 HTTP/1.1" 200 111268
+2026-03-21 15:54:46,489 WARNING django.request Not Found: /favicon.ico
+2026-03-21 15:54:46,489 WARNING django.server "GET /favicon.ico HTTP/1.1" 404 16158
+2026-03-21 15:54:48,766 INFO django.server "GET /swagger/ HTTP/1.1" 200 4649
+2026-03-21 15:54:55,649 INFO django.server "GET /api/schema/ HTTP/1.1" 200 178199
+2026-03-21 16:01:57,142 INFO django.utils.autoreload /home/ismat-dev/Desktop/Python/CRM_cosmos_edu/apps/users/views.py changed, reloading.
+2026-03-21 16:01:57,584 INFO django.utils.autoreload Watching for file changes with StatReloader
+2026-03-21 16:02:18,822 INFO django.server "GET /swagger/ HTTP/1.1" 200 4649
+2026-03-21 16:02:19,101 INFO django.server "GET /api/schema/ HTTP/1.1" 200 179472
+2026-03-21 16:02:55,886 INFO django.utils.autoreload /home/ismat-dev/Desktop/Python/CRM_cosmos_edu/apps/users/views.py changed, reloading.
+2026-03-21 16:02:56,350 INFO django.utils.autoreload Watching for file changes with StatReloader
+2026-03-21 16:02:58,657 INFO django.utils.autoreload /home/ismat-dev/Desktop/Python/CRM_cosmos_edu/apps/users/views.py changed, reloading.
+2026-03-21 16:02:59,068 INFO django.utils.autoreload Watching for file changes with StatReloader
+2026-03-21 16:03:03,580 INFO django.server "GET /swagger/ HTTP/1.1" 200 4649
+2026-03-21 16:03:03,722 INFO django.server "GET /api/schema/ HTTP/1.1" 200 180487
+2026-03-21 16:12:59,668 INFO django.utils.autoreload /home/ismat-dev/Desktop/Python/CRM_cosmos_edu/apps/enrollments/serializers.py changed, reloading.
+2026-03-21 16:13:00,378 INFO django.utils.autoreload Watching for file changes with StatReloader
+2026-03-21 16:13:01,786 INFO django.utils.autoreload /home/ismat-dev/Desktop/Python/CRM_cosmos_edu/apps/enrollments/serializers.py changed, reloading.
+2026-03-21 16:13:02,402 INFO django.utils.autoreload Watching for file changes with StatReloader
+2026-03-21 16:13:09,970 INFO django.utils.autoreload /home/ismat-dev/Desktop/Python/CRM_cosmos_edu/apps/enrollments/serializers.py changed, reloading.
+2026-03-21 16:13:10,571 INFO django.utils.autoreload Watching for file changes with StatReloader
+2026-03-21 16:13:18,112 INFO django.utils.autoreload /home/ismat-dev/Desktop/Python/CRM_cosmos_edu/apps/enrollments/serializers.py changed, reloading.
+2026-03-21 16:13:18,751 INFO django.utils.autoreload Watching for file changes with StatReloader
+2026-03-21 16:13:32,501 INFO django.utils.autoreload /home/ismat-dev/Desktop/Python/CRM_cosmos_edu/apps/enrollments/serializers.py changed, reloading.
+2026-03-21 16:13:33,109 INFO django.utils.autoreload Watching for file changes with StatReloader
+2026-03-21 16:13:35,617 INFO django.utils.autoreload /home/ismat-dev/Desktop/Python/CRM_cosmos_edu/apps/enrollments/serializers.py changed, reloading.
+2026-03-21 16:13:36,213 INFO django.utils.autoreload Watching for file changes with StatReloader
+2026-03-21 16:13:38,604 INFO django.utils.autoreload /home/ismat-dev/Desktop/Python/CRM_cosmos_edu/apps/enrollments/serializers.py changed, reloading.
+2026-03-21 16:13:39,249 INFO django.utils.autoreload Watching for file changes with StatReloader
+2026-03-21 16:13:43,721 INFO django.utils.autoreload /home/ismat-dev/Desktop/Python/CRM_cosmos_edu/apps/enrollments/serializers.py changed, reloading.
+2026-03-21 16:13:44,439 INFO django.utils.autoreload Watching for file changes with StatReloader
+2026-03-21 16:13:45,820 INFO django.utils.autoreload /home/ismat-dev/Desktop/Python/CRM_cosmos_edu/apps/enrollments/serializers.py changed, reloading.
+2026-03-21 16:13:46,426 INFO django.utils.autoreload Watching for file changes with StatReloader
+2026-03-21 16:15:43,155 INFO django.server "GET /swagger/ HTTP/1.1" 200 4649
+2026-03-21 16:15:43,407 INFO django.server "GET /api/schema/ HTTP/1.1" 200 180535
+2026-03-21 16:17:07,683 INFO django.utils.autoreload /home/ismat-dev/Desktop/Python/CRM_cosmos_edu/apps/courses/serializers.py changed, reloading.
+2026-03-21 16:17:08,534 INFO django.utils.autoreload Watching for file changes with StatReloader
+2026-03-21 16:17:18,222 INFO django.utils.autoreload /home/ismat-dev/Desktop/Python/CRM_cosmos_edu/apps/courses/serializers.py changed, reloading.
+2026-03-21 16:17:18,922 INFO django.utils.autoreload Watching for file changes with StatReloader
+2026-03-21 16:17:22,346 INFO django.utils.autoreload /home/ismat-dev/Desktop/Python/CRM_cosmos_edu/apps/courses/serializers.py changed, reloading.
+2026-03-21 16:17:22,956 INFO django.utils.autoreload Watching for file changes with StatReloader
+2026-03-21 16:18:02,489 INFO django.server "GET /swagger/ HTTP/1.1" 200 4649
+2026-03-21 16:18:02,711 INFO django.server "GET /api/schema/ HTTP/1.1" 200 180577
+2026-03-21 16:19:06,304 INFO django.utils.autoreload Watching for file changes with StatReloader
+2026-03-21 16:19:09,816 INFO django.server "GET /swagger/ HTTP/1.1" 200 4649
+2026-03-21 16:19:10,031 INFO django.server "GET /api/schema/ HTTP/1.1" 200 180463
+2026-03-21 16:20:04,194 INFO django.utils.autoreload Watching for file changes with StatReloader
+2026-03-21 16:20:06,110 INFO django.server "GET /swagger/ HTTP/1.1" 200 4649
+2026-03-21 16:20:06,359 INFO django.server "GET /api/schema/ HTTP/1.1" 200 180463
+2026-03-21 16:24:55,139 INFO django.utils.autoreload Watching for file changes with StatReloader
+2026-03-21 16:24:57,178 INFO django.server "GET /swagger/ HTTP/1.1" 200 4649
+2026-03-21 16:24:57,551 INFO django.server "GET /api/schema/ HTTP/1.1" 200 180463
+2026-03-21 16:26:01,061 INFO django.server "POST /admin/login/?next=/admin/ HTTP/1.1" 302 0
+2026-03-21 16:26:01,156 INFO django.server "GET /admin/ HTTP/1.1" 200 75671
+2026-03-21 16:26:03,112 INFO django.server "GET /admin/users/userprofile/ HTTP/1.1" 200 72681
+2026-03-21 16:26:03,147 INFO django.server "GET /static/admin/js/jquery.init.js HTTP/1.1" 304 0
+2026-03-21 16:26:03,148 INFO django.server "GET /static/admin/js/admin/RelatedObjectLookups.js HTTP/1.1" 200 9222
+2026-03-21 16:26:03,150 INFO django.server "GET /static/admin/js/core.js HTTP/1.1" 304 0
+2026-03-21 16:26:03,154 INFO django.server "GET /static/admin/js/actions.js HTTP/1.1" 304 0
+2026-03-21 16:26:03,159 INFO django.server "GET /admin/jsi18n/ HTTP/1.1" 200 3342
+2026-03-21 16:26:03,160 INFO django.server "GET /static/admin/js/urlify.js HTTP/1.1" 304 0
+2026-03-21 16:26:03,161 INFO django.server "GET /static/admin/js/prepopulate.js HTTP/1.1" 304 0
+2026-03-21 16:26:03,162 INFO django.server "GET /static/admin/js/vendor/jquery/jquery.js HTTP/1.1" 200 285314
+2026-03-21 16:26:03,163 INFO django.server "GET /static/admin/js/vendor/xregexp/xregexp.js HTTP/1.1" 200 325171
+2026-03-21 16:26:17,371 INFO django.server "POST /login/ HTTP/1.1" 200 273
+2026-03-21 16:27:57,978 INFO django.server "GET /admin/courses/course/ HTTP/1.1" 200 57638
+2026-03-21 16:27:58,016 INFO django.server "GET /admin/jsi18n/ HTTP/1.1" 200 3342
+2026-03-21 16:28:10,567 INFO django.server "POST /payments/ HTTP/1.1" 201 73
+2026-03-21 16:28:17,136 INFO django.server "GET /payments/ HTTP/1.1" 200 75
+2026-04-01 12:02:16,218 INFO django.utils.autoreload Watching for file changes with StatReloader
+2026-04-01 12:02:29,666 INFO django.server "GET /swagger HTTP/1.1" 301 0
+2026-04-01 12:02:29,679 INFO django.server "GET /swagger/ HTTP/1.1" 200 4649
+2026-04-01 12:02:33,994 INFO django.server "GET /api/schema/ HTTP/1.1" 200 180463
