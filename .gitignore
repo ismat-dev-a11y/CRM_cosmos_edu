@@ -8,11 +8,11 @@ __pycache__/
 *.pyo
 *.pyd
 .Python
-# env/
-# venv/
-# .venv/
-# venv*/
-# ENV/
+env/
+venv/
+.venv/
+venv*/
+ENV/
 env.bak/
 venv.bak/
 pip-log.txt
